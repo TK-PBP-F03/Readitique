@@ -8,8 +8,7 @@
 - Melvara Zafirah Ramsi
 
 ## Cerita aplikasi yang diajukan serta manfaatnya
-Book Club: Ada library buku dari database yg ada, terus setiap pengguna bisa nambahin ke Read, To Be Read, Favorites, book of the month
-
+Readitique adalah sebuah aplikasi perpustakaan digital yang memungkinkan pengguna untuk mengakses koleksi buku digital yang kaya. Aplikasi ini menawarkan fitur Reading List, yang memungkinkan pengguna untuk mengatur dan melacak buku-buku yang sudah mereka baca, ingin mereka baca, serta buku favorit. Pengguna dapat memberikan rating dan ulasan melalui fitur Review, serta membaca ulasan dari pengguna lain. "Book of the Month" menawarkan rekomendasi buku bulanan yang berbeda untuk pengguna yang sudah masuk dan yang belum login. Profil pengguna memiliki peran yang berbeda, termasuk Admin, Reader, dan Writer, dengan hak akses yang sesuai. Fitur Add Buku memungkinkan pengguna untuk mengusulkan dan memberikan suara pada buku yang ingin mereka lihat ditambahkan ke dalam koleksi. Dengan aplikasi ini, pengguna dapat menjalani pengalaman membaca yang terorganisir dan berinteraktif, serta berpartisipasi dalam komunitas literatur yang dinamis.
 
 ## Daftar modul yang akan diimplementasikan
 1. Autentikasi pengguna
@@ -25,7 +24,7 @@ https://www.kaggle.com/datasets/ishikajohari/best-books-10k-multi-genre-data
 
 ## Peran Pengguna
 - Login (Reader): Pengguna dapat menyimpan buku yang akan dibaca atau memasukkan ke dalam list favorit buku . Selain itu, pengguna dapat melihat semua review suatu buku dan bisa memberikan rating dan review pada buku tersebut. Pengguna juga bisa memberikan usulan terbaru mengenai buku yang akan ditambahkan dan melakukan voting buku yang akan diusulkan tersebut.
-- Login (Writer) : 
+- Login (Writer) : Writer dapat melihat semua review yang diberikan pada buku-buku karya writernya.
 - Tidak Login : Pengguna yang belum login atau bahkan belum memiliki akun hanya dapat mengakses beberapa fitur pada website ini seperti, hanya bisa membaca buku tanpa menyimpan ke favorite atau menandai bahwa buku itu belum selesai. Pengguna juga tidak bisa melihat review full dan memberikan review pada suatu buku. Pengguna juga hanya bisa melihat usulan buku baru yang ingin ditambahkan tanpa melakukan voting pada usulan tersebut. Jika pengguna belum memiliki akun, pengguna dapat membuat akun baru dengan membuat username dan password baru pada website tersebut. 
 - Admin : Menerima usulan voting kemudian menambahkan buku baru sesuai usulan voting tersebut. 
 
