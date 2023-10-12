@@ -1,4 +1,4 @@
-# UTS-PBP F03
+3# UTS-PBP F03
 
 ## Anggota Kelompok :
 - Dhafin Fadhlan Kamal
@@ -11,12 +11,12 @@
 Readitique adalah sebuah aplikasi perpustakaan digital yang memungkinkan pengguna untuk mengakses koleksi buku digital yang kaya. Aplikasi ini menawarkan fitur Reading List, yang memungkinkan pengguna untuk mengatur dan melacak buku-buku yang sudah mereka baca, ingin mereka baca, serta buku favorit. Pengguna dapat memberikan rating dan ulasan melalui fitur Review, serta membaca ulasan dari pengguna lain. "Book of the Month" menawarkan rekomendasi buku bulanan yang berbeda untuk pengguna yang sudah masuk dan yang belum login. Profil pengguna memiliki peran yang berbeda, termasuk Admin, Reader, dan Writer, dengan hak akses yang sesuai. Fitur Add Buku memungkinkan pengguna untuk mengusulkan dan memberikan suara pada buku yang ingin mereka lihat ditambahkan ke dalam koleksi. Dengan aplikasi ini, pengguna dapat menjalani pengalaman membaca yang terorganisir dan berinteraktif, serta berpartisipasi dalam komunitas literatur yang dinamis.
 
 ## Daftar modul yang akan diimplementasikan
-1. Autentikasi pengguna
-2. Reading list (read only/favorite, mark finished, etc)
-3. Review (read rating/a few reviews only/add)
-4. Book of the month (beda untuk user yg sudah login/belum login)
-5. Profile (Admin/Reader/Writer)
-6. Add buku (guest: lihat usulan terbaru, non-admin: usulkan dan voting buku, admin: terima dan tambah buku)
+1. Autentikasi pengguna (tiap orang)
+2. Reading list (read only/favorite, mark finished, etc) (Melvara)
+3. Review (read rating/a few reviews only/add) (Dhafin)
+4. Book of the month (beda untuk user yg sudah login/belum login) (Thariq)
+5. Profile (Admin/Reader/Writer) (Kevin)
+6. Add buku (guest: lihat usulan terbaru, non-admin: usulkan dan voting buku, admin: terima dan tambah buku) (Reika(
 
 
 ## Sumber dataset katalog buku
