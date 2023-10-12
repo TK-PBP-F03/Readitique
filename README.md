@@ -16,7 +16,7 @@ Readitique adalah sebuah aplikasi perpustakaan digital yang memungkinkan penggun
 3. Review (read rating/a few reviews only/add) (Dhafin)
 4. Book of the month (beda untuk user yg sudah login/belum login) (Thariq)
 5. Profile (Admin/Reader/Writer) (Kevin)
-6. Add buku (guest: lihat usulan terbaru, non-admin: usulkan dan voting buku, admin: terima dan tambah buku) (Reika(
+6. Add buku (guest: lihat usulan terbaru, non-admin: usulkan dan voting buku, admin: terima dan tambah buku) (Reika)
 
 
 ## Sumber dataset katalog buku
