@@ -28,3 +28,5 @@ https://www.kaggle.com/datasets/ishikajohari/best-books-10k-multi-genre-data
 - Tidak Login : Pengguna yang belum login atau bahkan belum memiliki akun hanya dapat mengakses beberapa fitur pada website ini seperti, hanya bisa membaca buku tanpa menyimpan ke favorite atau menandai bahwa buku itu belum selesai. Pengguna hanya bisa melihat buku yang sudah dibaca pengguna yang sudah login di reading list mereka dan tidak bisa membuat atau memodifikasi reading list tersebut. Pengguna juga tidak bisa melihat review full dan memberikan review pada suatu buku. Pengguna juga hanya bisa melihat usulan buku baru yang ingin ditambahkan tanpa melakukan voting pada usulan tersebut. Jika pengguna belum memiliki akun, pengguna dapat membuat akun baru dengan membuat username dan password baru pada website tersebut. 
 - Admin : Menerima usulan voting kemudian menambahkan buku baru sesuai usulan voting tersebut. 
 
+
+
