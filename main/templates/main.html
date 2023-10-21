@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Readitique</h1>
+
+    <h5>Name:</h5>
+    <p>{{name}}</p>
+
+    <h5>Class:</h5>
+    <p>{{class}}</p>
+
+    {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
+
+    <div class="container">
+        <div class="row">
+            {% for book in data %}
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="{{book.Image_URL}}" class="img-fluid" alt="Gambar" style="max-width: 100px; max-height: 150px;">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size: 16px;">{{ book.Book }}</h5>
+                                <p class="card-text" style="font-size: 12px;">Author: {{ book.Author }}</p>
+                                <p class="card-text" style="font-size: 12px;">
+                                <span id="description{{ forloop.counter }}" data-description="{{ book.Description}}">{{ book.Description|slice:":100" }}</span>
+                                {% if book.Description|length > 100 %}
+                                    <a href="javascript:void(0);" class="show-more" data-target="description{{ forloop.counter }}">Tampilkan Lebih Banyak</a>
+                                {% endif %}
+                            </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <br />
+
+    <a href="{% url 'main:create_book' %}">
+        <button>
+            Add New Product
+        </button>
+    </a>
+    <script>
+        // Mengambil semua elemen dengan class "show-more"
+        const showMoreButtons = document.querySelectorAll('.show-more');
+
+        // Mengaitkan event click pada setiap tombol "Tampilkan Lebih Banyak"
+        showMoreButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const targetElement = document.getElementById(targetId);
+
+                // Mengganti isi dari target element dengan deskripsi yang ada di atribut data-description
+                targetElement.innerHTML = targetElement.getAttribute('data-description');
+            });
+        });
+    </script>
+
+
+
+{% endblock content %}
