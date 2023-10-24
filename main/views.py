@@ -8,12 +8,10 @@ import codecs
 from django.http import HttpResponse
 from django.core import serializers
 # Create your views here.
-def get_data():
-    with codecs.open('C:\\Users\\legion\\OneDrive\\Documents\\SEMESTER 3\\PBP\\Tugas Kelompok 1\\Readitique\\dataset_with_images.json', 'r',encoding='utf-8') as json_file:
-        data = json.load(json_file)
-    return data[:100]
+
+
 def show_main(request):
-    data = get_data()
+    data = Book.objects.all()
     context = {
         'name': 'Rapunz',
         'class': 'PBP F',
@@ -21,6 +19,8 @@ def show_main(request):
     }
 
     return render(request, "main.html", context)
+
+
 def create_books_from_json(data):
     books = []
     for entry in data:
@@ -32,6 +32,8 @@ def create_books_from_json(data):
         )
         books.append(book)
     return books
+
+
 def create_book(request):
     form = BookForm(request.POST or None)
 
@@ -42,14 +44,16 @@ def create_book(request):
     context = {'form': form}
     return render(request, "create_book.html", context)
 
+
 def show_xml(request):
     data = get_data()
     books = create_books_from_json(data)
     serialized_data = serializers.serialize("xml", books)
     return HttpResponse(serialized_data, content_type="application/xml")
+
+
 def show_json(request):
     data = get_data()
     books = create_books_from_json(data)
     serialized_data = serializers.serialize("json", books)
     return HttpResponse(serialized_data, content_type="application/json")
-
