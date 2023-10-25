@@ -1,12 +1,12 @@
 from django.urls import path
 
-from main.views import create_book, show_json, show_main, show_xml
+from main import views
 
 app_name = 'main'
 
 urlpatterns = [
-    path('', show_main, name='show_main'),
-    path('create-book', create_book, name='create_book'),
-    path('xml/', show_xml, name='show_xml'), 
-    path('json/', show_json, name='show_json'), 
+  path('', views.show_main, name="show-main"),
+  path('search/', views.get_filtered, name="get-filtered"),
+  path('login/', views.login_user, name="login"),
+  path('logout/', views.logout_user, name="logout"),
 ]

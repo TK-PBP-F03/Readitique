@@ -1,0 +1,89 @@
+#nav-bar-raw {
+  display: flex;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 60px;
+  z-index: 2;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: #7f534b;
+}
+
+#nav-bar-raw h2 {
+  margin: 0;
+  font-size: 25px;
+  padding-left: 15px;
+  margin-top: -4px;
+}
+
+.nav-anchor {
+  color: #212529;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.nav-anchor:hover {
+  color: #e5f2c9;
+  text-decoration: none;
+}
+
+#main-title {
+  position: relative;
+  text-align: center;
+}
+
+#quote-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 75%;
+  transform: translate(-50%, -50%);
+}
+
+#main-bg {
+  width: 100vw;
+  height: 60vh;
+  object-fit: cover;
+  margin-top: 60px;
+}
+
+#readitique {
+  font-family: Heebo;
+  font-size: 38px;
+  font-weight: bold;
+  color: #f8ffea;
+  stroke: black;
+  stroke-width: 1px;
+}
+
+#kamaru {
+  font-family: Heebo;
+  font-size: 20px;
+  font-weight: bold;
+  color: #f8ffea;
+  stroke: black;
+  stroke-width: 1px;
+}
+
+#nav-options {
+  display: flex;
+  padding-right: 20px;
+  column-gap: 20px;
+}
+
+#nav-options h2 {
+  font-size: 25px;
+  margin: 0;
+  margin-top: -4px;
+}
+
+#search-input {
+  margin-top: 30px;
+  display: flex;
+  width: 100vw;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 20px;
+}

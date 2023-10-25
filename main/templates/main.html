@@ -1,32 +1,67 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+{% endblock meta %}
 
 {% block content %}
-    <h1>Readitique</h1>
 
-    <h5>Name:</h5>
-    <p>{{name}}</p>
+    <div id="nav-bar-raw">
+        {% if user.is_authenticated %}
+            <h2 class="hi-or-login">Hello, <a class="nav-anchor" href="">{{ user.username }}</a>!</h2>
+        {% else %}
+            <h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2>
+        {% endif %}
 
-    <h5>Class:</h5>
-    <p>{{class}}</p>
+        <div id="nav-options">
+          <h2><a href="" class="nav-anchor">Reviews</a></h2>
+          <h2><a href="" class="nav-anchor">Book of the Month</a></h2>
+          <h2><a href="" class="nav-anchor">Books</a></h2>
+          {% if user.is_authenticated %}
+            <h2><a class="nav-anchor" href="{% url 'main:logout' %}">Logout</a></h2>
+          {% else %}
+            <h2 class="hi-or-login"><a class="nav-anchor" href="{% url 'main:login' %}">Login</a></h2>
+          {% endif %}
+        </div>
+
+    </div>
+
+    <div id="main-title">
+      <img id="main-bg" src="https://img.freepik.com/free-photo/abundant-collection-antique-books-wooden-shelves-generated-by-ai_188544-29660.jpg">
+      <div id="quote-container">
+        <div id="readitique">"Readitique akan terus berkembang tapi tidak akan pernah sempurna. karena kesempurnaan hanya milik Tuhan"</div>
+        <div id="kamaru">-Kamaru 2023</div>
+      </div>
+    </div>
+    
 
     {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
 
-    <div class="container">
+    <div id="search-input">
+        <h1>Book Recomendations:</h1>
+        <div>
+            <label for="searc-book">Search by title:</label>
+            <input id="booksearch" type="text" name="label" style="margin-left: 8px"/>
+        </div>
+    </div>
+
+
+    <div class="container" style="padding-top: 50px; min-height: 600px;">
         <div class="row">
             {% for book in data %}
             <div class="col-md-4">
                 <div class="card mb-3">
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <img src="{{book.Image_URL}}" class="img-fluid" alt="Gambar" style="max-width: 100px; max-height: 150px;">
+                            <img src="{{book.image_link}}" class="img-fluid" alt="Gambar" style="max-width: 100px; max-height: 150px;">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h5 class="card-title" style="font-size: 16px;">{{ book.Book }}</h5>
-                                <p class="card-text" style="font-size: 12px;">Author: {{ book.Author }}</p>
+                                <h5 class="card-title" style="font-size: 16px;">{{ book.title }}</h5>
+                                <p class="card-text" style="font-size: 12px;">Author: {{ book.author }}</p>
                                 <p class="card-text" style="font-size: 12px;">
-                                <span id="description{{ forloop.counter }}" data-description="{{ book.Description}}">{{ book.Description|slice:":100" }}</span>
-                                {% if book.Description|length > 100 %}
+                                <span id="description{{ forloop.counter }}" data-description="{{ book.Description}}">{{ book.description|slice:":100" }}</span>
+                                {% if book.description|length > 100 %}
                                     <a href="javascript:void(0);" class="show-more" data-target="description{{ forloop.counter }}">Tampilkan Lebih Banyak</a>
                                 {% endif %}
                             </p>
@@ -41,12 +76,6 @@
 
 
     <br />
-
-    <a href="{% url 'main:create_book' %}">
-        <button>
-            Add New Product
-        </button>
-    </a>
     <script>
         // Mengambil semua elemen dengan class "show-more"
         const showMoreButtons = document.querySelectorAll('.show-more');
@@ -59,6 +88,51 @@
 
                 // Mengganti isi dari target element dengan deskripsi yang ada di atribut data-description
                 targetElement.innerHTML = targetElement.getAttribute('data-description');
+            });
+        });
+
+        searchBook = document.getElementById("booksearch");
+        searchBook.addEventListener("input", (e) => {
+            e.preventDefault();
+            const scrollPos = window.scrollY;
+
+            const container = document.querySelector(".row");
+            container.innerHTML = "";
+            let value = e.target.value;
+            const base = "{% url 'main:get-filtered' %}"
+
+            fetch(`${base}?search_text=${value}`)
+            .then(response => response.json())
+            .then(data => {
+                for (book of data) {
+                    let description = book['fields']['description'];
+                    if (description.length > 100) {
+                        description = description.substring(0, 95) + "...";
+                    }
+                    container.innerHTML += '<div class="col-md-4">' +
+                        '<div class="card mb-3">' +
+                    '<div class="row g-0">' +
+                        '<div class="col-md-4">' +
+                            `<img src="${book['fields']['image_link']}" class="img-fluid" alt="Gambar" style="max-width: 100px; max-height: 150px;">` +
+                        '</div>' +
+                        '<div class="col-md-8">' +
+                            '<div class="card-body">' +
+                                `<h5 class="card-title" style="font-size: 16px;">${book['fields']['title']}</h5>` +
+                                `<p class="card-text" style="font-size: 12px;">Author: ${book['fields']['author']}</p>` +
+                                '<p class="card-text" style="font-size: 12px;">' +
+                                `<span data-description="${description}">${description}</span>` +
+                            '</p>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+            '</div>';
+                }   
+            })
+            .then(() => {
+                setTimeout(() => {
+                window.scrollTo(0, scrollPos);
+                }, 10);
             });
         });
     </script>
