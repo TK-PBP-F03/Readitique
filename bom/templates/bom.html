@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div id="nav-bar-raw">
+        {% if user.is_authenticated %}
+            <h2 class="hi-or-login">Hello, <a class="nav-anchor" href="{% url 'rprofile:profile' %}">{{ user.username }}</a>!</h2>
+        {% else %}
+            <h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2>
+        {% endif %}
+
+        <div id="nav-options">
+          <h2><a href="" class="nav-anchor">Reviews</a></h2>
+          <h2><a href="{% url 'bom:show_top_books' %}" class="nav-anchor">Book of the Month</a></h2>
+          <h2><a href="{% url 'rprofile:bookofchoice' %}" class="nav-anchor">Book of your Choice</a></h2>
+          <h2><a href="" class="nav-anchor">Books</a></h2>
+          {% if user.is_authenticated %}
+            <h2><a class="nav-anchor" href="{% url 'main:logout' %}">Logout</a></h2>
+          {% else %}
+            <h2 class="hi-or-login"><a class="nav-anchor" href="{% url 'main:login' %}">Login</a></h2>
+          {% endif %}
+        </div>
+
+    </div>
+    </br>
+    </br>
+    <h1 class="text-center">Book of the Month</h1>
+    <div class="row mb-3">
+        <div class="col-md-12 text-center">
+            <a href="{% url 'bom:reset_counts' %}" class="btn btn-danger">Reset Jumlah Pembaca</a>
+        </div>
+    </div>
+    {% comment %} Card pertama untuk urutan jumlah pembaca terbanyak {% endcomment %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mx-auto">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="card text-bg-dark">
+                            <img src="{{top_books.0.image_link}}" class="card-img" alt="Gambar" >
+                            <div class="card-img-overlay">
+                                <p class="card-text"><small>1</small></p>
+                                <h5 class="card-title">{{top_books.0.title}}</h5>
+                                <p class="card-text">{{top_books.0.author}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+        <div class="row">
+            {% for i in top_books|slice:"1:3" %}
+            <div class="col-md-4 mx-auto">
+                <div class="card mb-3 small-card">
+                    <div class="row g-0">
+                        <div class="col-4">
+                            <img src="{{i.image_link}}" class="img-fluid" alt="Gambar" style="max-width: 100px; max-height: 150px;">
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size: 14px;">{{ i.title }}</h5>
+                                <p class="card-text" style="font-size: 12px;">Author: {{ i.author }}</p>
+                                <button class="btn btn-primary" onclick="incrementCount({{ i.index_key }})">Tambah Pembaca</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="row">
+            {% for i in top_books|slice:"3:5" %}
+            <div class="col-md-4 mx-auto">
+                <div class="card mb-3 small-card">
+                    <div class="row g-0">
+                        <div class="col-4">
+                            <img src="{{i.image_link}}" class="img-fluid" alt="Gambar" style="max-width: 100px; max-height: 150px;">
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size: 14px;">{{ i.title }}</h5>
+                                <p class="card-text" style="font-size: 12px;">Author: {{ i.author }}</p>
+                                <button class="btn btn-primary" onclick="incrementCount({{ i.index_key }})">Tambah Pembaca</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="row">
+            {% for i in top_books|slice:"5:" %}
+            <div class="col-md-4 mx-auto">
+                <div class="card mb-3 small-card">
+                    <div class="row g-0">
+                        <div class="col-4">
+                            <img src="{{i.image_link}}" class="img-fluid" alt="Gambar" style="max-width: 100px; max-height: 150px;">
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size: 14px;">{{ i.title }}</h5>
+                                <p class="card-text" style="font-size: 12px;">Author: {{ i.author }}</p>
+                                <button class="btn btn-primary" onclick="incrementCount({{ i.index_key }})">Tambah Pembaca</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div> 
+
+
+
+    <script>
+        function incrementCount(bookId) {
+            // Kirim permintaan AJAX ke server untuk menambah jumlah pembaca
+            fetch(`/bom/increment_count/${bookId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    // Perbarui tampilan jumlah pembaca
+                    document.getElementById(`count-read-${bookId}`).innerText = data.count_read;
+                })
+                .catch(error => console.error(error));
+        }
+    </script>
+
+
+
+{% endblock content %}
