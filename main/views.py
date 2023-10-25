@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .models import Book
@@ -68,4 +68,10 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect("main:show-main")
+
+def book_detail(request,book_id):
+    book = get_object_or_404(Book,id=book_id)
+    context = {'book':book}
+
+    return render(request, 'book_detail.html', context)
 

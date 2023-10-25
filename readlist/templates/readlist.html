@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+{% endblock meta %}
+
+{% block content %}
+
+    <div id="nav-bar-raw">
+        {% if user.is_authenticated %}
+            <h2 class="hi-or-login">Hello, <a class="nav-anchor" href="{% url 'rprofile:profile' %}">{{ user.username }}</a>!</h2>
+        {% else %}
+            <h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2>
+        {% endif %}
+
+        <div id="nav-options">
+          <h2><a href="" class="nav-anchor">Reviews</a></h2>
+          <h2><a href="" class="nav-anchor">Book of the Month</a></h2>
+          <h2><a href="{% url 'rprofile:bookofchoice' %}" class="nav-anchor">Book of your Choice</a></h2>
+          <h2><a href="" class="nav-anchor">Books</a></h2>
+          {% if user.is_authenticated %}
+            <h2><a class="nav-anchor" href="{% url 'main:logout' %}">Logout</a></h2>
+          {% else %}
+            <h2 class="hi-or-login"><a class="nav-anchor" href="{% url 'main:login' %}">Login</a></h2>
+          {% endif %}
+        </div>
+
+    </div>
+
+
+
+{% endblock content %}
