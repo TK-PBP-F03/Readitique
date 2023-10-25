@@ -1,55 +1,57 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
-from main.forms import BookForm
 from django.urls import reverse
 from .models import Book
-import json
-import codecs
 from django.http import HttpResponse
 from django.core import serializers
+from django.http import JsonResponse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+
+
 # Create your views here.
-def get_data():
-    with codecs.open('C:\\Users\\legion\\OneDrive\\Documents\\SEMESTER 3\\PBP\\Tugas Kelompok 1\\Readitique\\dataset_with_images.json', 'r',encoding='utf-8') as json_file:
-        data = json.load(json_file)
-    return data[:100]
+
+
+# Create your views here.
+
 def show_main(request):
-    data = get_data()
+    data = Book.objects.order_by("?")[:6]
+    user = request.user
+    print(user)
     context = {
-        'name': 'Rapunz',
-        'class': 'PBP F',
         'data': data,
+        'user': user,
     }
 
     return render(request, "main.html", context)
-def create_books_from_json(data):
-    books = []
-    for entry in data:
-        book = Book(
-            title=entry['Book'],
-            author=entry['Author'],
-            description=entry['Description'],
-            genre=entry['Genres']
-        )
-        books.append(book)
-    return books
-def create_book(request):
-    form = BookForm(request.POST or None)
 
-    if form.is_valid() and request.method == "POST":
-        form.save()
-        return HttpResponseRedirect(reverse('main:show_main'))
 
-    context = {'form': form}
-    return render(request, "create_book.html", context)
+def get_filtered(request):
+    search_key = request.GET.get('search_text', '')
 
-def show_xml(request):
-    data = get_data()
-    books = create_books_from_json(data)
-    serialized_data = serializers.serialize("xml", books)
-    return HttpResponse(serialized_data, content_type="application/xml")
-def show_json(request):
-    data = get_data()
-    books = create_books_from_json(data)
-    serialized_data = serializers.serialize("json", books)
-    return HttpResponse(serialized_data, content_type="application/json")
+    if (search_key == ''):
+        data = Book.objects.order_by("?")[:6]
+    else:
+      data = Book.objects.filter(title__icontains=search_key)[:6]
+
+    data_json = serializers.serialize("json", data)
+
+    return HttpResponse(data_json)
+
+def login_user(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('main:show-main')
+        else:
+            messages.info(request, 'Sorry, incorrect username or password. Please try again.')
+    context = {}
+    return render(request, 'login.html', context)
+
+def logout_user(request):
+    logout(request)
+    return redirect("main:show-main")
 
