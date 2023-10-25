@@ -7,10 +7,10 @@ import django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Readitique.settings")
 django.setup()
 
-from main.models import Book
+from rprofile.models import Book
 
 
-with codecs.open('C:\\Users\\Dhafin\\Documents\\pelajaran\\kel_pbp\\Readitique\\dataset_with_images.json', 'r', encoding='utf-8') as json_file:
+with codecs.open('D:\\Sem 3 UI\\PBP\\utspbp\\Readitique\\dataset_with_images.json', 'r', encoding='utf-8') as json_file:
     datas = json.load(json_file)
 for data in datas:
     # nyari data

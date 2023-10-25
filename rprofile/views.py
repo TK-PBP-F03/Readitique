@@ -3,7 +3,7 @@ import random
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import Book
+from main.models import Book
 from django.http import HttpResponse
 from django.core import serializers
 from django.http import JsonResponse
@@ -27,10 +27,13 @@ def profile(request):
 
 def bookofchoice(request):
     # Load JSON data containing a collection of books
-    with open('dataset_with_images.json', 'r') as json_file:
-        book_data = json.load(json_file)
+    all_books = Book.objects.all()
 
-    # Randomly select one book from the list
-    random_book = random.choice(book_data)
+    if all_books:
+        # Randomly select one book from the list
+        random_book = random.choice(all_books)
+    else:
+        random_book = None  # Handle the case where there are no books in the database
+    
 
-    return render(request, 'profile.html', {'book': random_book})
+    return render(request, 'bookofyourchoice.html', {'book': random_book})
