@@ -8,7 +8,7 @@
 
     <div id="nav-bar-raw">
         {% if user.is_authenticated %}
-            <h2 class="hi-or-login">Hello, <a class="nav-anchor" href="">{{ user.username }}</a>!</h2>
+            <h2 class="hi-or-login">Hello, <a class="nav-anchor" href="{% url 'rprofile:profile' %}">{{ user.username }}</a>!</h2>
         {% else %}
             <h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2>
         {% endif %}
