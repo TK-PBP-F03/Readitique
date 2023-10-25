@@ -8,6 +8,7 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 
 
 # Create your views here.
@@ -18,7 +19,6 @@ from django.contrib.auth.decorators import login_required
 def show_main(request):
     data = Book.objects.order_by("?")[:6]
     user = request.user
-    print(user)
     context = {
         'data': data,
         'user': user,
@@ -38,6 +38,19 @@ def get_filtered(request):
     data_json = serializers.serialize("json", data)
 
     return HttpResponse(data_json)
+
+def register(request):
+    form = UserCreationForm()
+
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, 'Your account has been successfully created!')
+            return redirect('main:show-main')
+    context = {'form':form}
+    return render(request, 'register.html', context)
 
 def login_user(request):
     if request.method == 'POST':
