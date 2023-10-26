@@ -10,6 +10,11 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+
+from rprofile.forms import BookForm
+
 
 
 @login_required
@@ -20,7 +25,7 @@ def profile(request):
 
     if user.is_superuser:
         role = "Admin"
-    elif user.username in author_names:
+    elif user.username.replace('+',' ') in author_names:
         role = "Writer"
 
     return render(request, 'profile.html', {'user': user, 'role': role})
@@ -37,3 +42,64 @@ def bookofchoice(request):
     
 
     return render(request, 'bookofyourchoice.html', {'book': random_book})
+
+@login_required
+def update_email(request):
+    if request.method == 'POST':
+        user = request.user
+        email = request.POST.get('email')
+        
+        if email:
+            user.email = email
+            user.save()
+            return JsonResponse({'message': 'Email updated successfully'}, status=200)
+        
+        else:
+            return JsonResponse({'error': 'Email data not provided.'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    
+@login_required
+def update_phone(request):
+    if request.method == 'POST':
+        user = request.user
+        phone = request.POST.get('phone')
+        
+        if phone:
+            user.profile.phone = phone  # Assuming user has a related 'profile' model
+            user.profile.save()
+            return JsonResponse({'message': 'Phone updated successfully'}, status=200)
+        
+        else:
+            return JsonResponse({'error': 'Phone data not provided.'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    
+
+    
+
+def edit_book(request, id):
+    # Get product berdasarkan ID
+    book = Book.objects.get(pk=id)
+
+    # Set product sebagai instance dari form
+    form = BookForm(request.POST or None, instance=book)
+
+    if form.is_valid() and request.method == "POST":
+        # Simpan form dan kembali ke halaman awal
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "edit_book.html", context)
+
+
+def show_json(request):
+    data = Book.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+def show_json_by_id(request, id):
+    data = Book.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+    
+
