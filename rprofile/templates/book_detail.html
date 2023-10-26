@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+<div id="book-content">
+
+    <h1>{{ book.title }}</h1>
+    <p>{{ book.description }}</p>
+
+</div>
+
+
+<script>
+    // Use Ajax to fetch book content and display it in the "book-content" div
+    var bookId = 1;  // Replace with the actual book ID you want to read
+    var bookContentElement = document.getElementById('book-content');
+
+    fetch('/book/' + bookId + '/')
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            // Render the book content in the "book-content" div
+            bookContentElement.innerHTML = `
+                <h1>${data.title}</h1>
+                <p>${data.description}</p>
+                <!-- Add more HTML to render book content here -->
+            `;
+        })
+        .catch(function(error) {
+            console.error('Error:', error);
+        });
+</script>
