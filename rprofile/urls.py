@@ -9,6 +9,9 @@ urlpatterns = [
   path('bookofchoice/', views.bookofchoice, name='bookofchoice'),
   path('update_email/', views.update_email, name='update_email'),
   path('update_phone/', views.update_phone, name='update_phone'),
+  path('profile/edit_book/<int:id>/', views.edit_book, name='edit_book'),
+  path('json/', views.show_json, name='show_json'), 
+  path('json/<int:id>/', views.show_json_by_id, name='show_json_by_id'),
  
   
 

@@ -16,7 +16,6 @@
         <div id="nav-options">
           <h2><a href="" class="nav-anchor">Reviews</a></h2>
           <h2><a href="" class="nav-anchor">Book of the Month</a></h2>
-          <h2><a href="{% url 'rprofile:bookofchoice' %}" class="nav-anchor">Book of your Choice</a></h2>
           <h2><a href="" class="nav-anchor">Books</a></h2>
           {% if user.is_authenticated %}
             <h2><a class="nav-anchor" href="{% url 'main:logout' %}">Logout</a></h2>

@@ -13,6 +13,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
+from rprofile.forms import BookForm
+
 
 
 @login_required
@@ -73,19 +75,31 @@ def update_phone(request):
     else:
         return JsonResponse({'error': 'Invalid request'}, status=400)
     
-def read_book(request, book_id):
-    try:
-        book = Book.objects.get(id=book_id)
-        # Fetch the book content or any relevant data here
 
-        # For simplicity, we'll just send the book's title and description
-        book_data = {
-            'title': book.title,
-            'description': book.description,
-        }
+    
 
-        return JsonResponse(book_data)
-    except Book.DoesNotExist:
-        return JsonResponse({'error': 'Book not found'}, status=404)
+def edit_book(request, id):
+    # Get product berdasarkan ID
+    book = Book.objects.get(pk=id)
+
+    # Set product sebagai instance dari form
+    form = BookForm(request.POST or None, instance=book)
+
+    if form.is_valid() and request.method == "POST":
+        # Simpan form dan kembali ke halaman awal
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "edit_book.html", context)
+
+
+def show_json(request):
+    data = Book.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+def show_json_by_id(request, id):
+    data = Book.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
     
 
