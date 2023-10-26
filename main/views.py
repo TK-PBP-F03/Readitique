@@ -70,7 +70,7 @@ def logout_user(request):
     return redirect("main:show-main")
 
 def book_detail(request,book_id):
-    book = get_object_or_404(Book,id=book_id)
+    book = get_object_or_404(Book,id=book_id + 1)
     context = {'book':book}
 
     return render(request, 'book_detail.html', context)

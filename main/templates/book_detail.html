@@ -1,19 +1,26 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-    <div class="container">
-        <h1>Detail Buku</h1>
-        <div class="card">
-            <img src="{{ book.image_link }}" class="card-img-top" alt="{{ book.title }}">
+<div class="container">
+    <h1>Detail Buku</h1>
+    <div class="card">
+        <div class="card-content">
+            <div class="img-container">
+                <img src="{{ book.image_link }}" class="card-img" alt="{{ book.title }}">
+                <button class="btn-read">Want to Read</button>
+            </div>
             <div class="card-body">
                 <h5 class="card-title">{{ book.title }}</h5>
                 <p class="card-text">Penulis: {{ book.author }}</p>
                 <p class="card-text">Deskripsi: {{ book.description }}</p>
                 <p class="card-text">Genre: {{ book.genre }}</p>
-                <p class="card-text">Rating: {{ book.rating }}</p>
-                <p class="card-text">Jumlah Pembaca: {{ book.count_read }}</p>
-                <!-- Tambahkan tombol atau tautan untuk aksi lainnya jika diperlukan -->
             </div>
         </div>
+        <div class="card-footer">
+            <p class="card-rating">Rating: {{ book.rating }}</p>
+            <button class="btn-review">Write a Review</button>
+        </div>
     </div>
+</div>
 {% endblock content %}
