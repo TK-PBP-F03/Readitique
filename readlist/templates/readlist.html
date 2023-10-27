@@ -6,7 +6,7 @@
 
 {% block content %}
 
-    <div id="nav-bar-raw">
+    <div id="nav-bar-readlist">
         {% if user.is_authenticated %}
             <h2 class="hi-or-login">Hello, <a class="nav-anchor" href="{% url 'rprofile:profile' %}">{{ user.username }}</a>!</h2>
         {% else %}
@@ -24,9 +24,49 @@
             <h2 class="hi-or-login"><a class="nav-anchor" href="{% url 'main:login' %}">Login</a></h2>
           {% endif %}
         </div>
-
     </div>
-
+    <div class="book-list">
+      <table>
+          <thead>
+              <tr>
+                  <th>Cover</th>
+                  <th>Title</th>
+                  <th>Author</th>
+                  <th>Rating</th>
+              </tr>
+          </thead>
+          <tbody>
+              <!-- Contoh entri buku -->
+              {% for book in books %}
+              <tr>
+                  <td><img src="{{ book.image_link }}" alt="{{ book.title }} Cover" class="book-cover"></td>
+                  <td>
+                    <a href="{% url 'main:book_detail' book_id=book.index_key %}">{{ book.title }}</a>
+                    <button class="btn-favorite">Favorite</button>
+                    <button class="btn-readbooks">Read</button>
+                  </td>
+                  <td>{{ book.author }}</td>
+                  <td>
+                    {{ book.rating }}
+                    <!-- Anda mungkin ingin menambahkan logika untuk menampilkan bintang sesuai dengan rating buku -->
+                    {% for i in "12345" %}
+                      {% if forloop.counter <= book.rating %}
+                          ★ <!-- Bintang penuh -->
+                      {% else %}
+                          ☆ <!-- Bintang kosong -->
+                      {% endif %}
+                    {% endfor %}
+                  </td>
+              </tr>
+              {% empty %}
+              <tr>
+                  <td colspan="4" class="no-books">Tidak ada buku yang tersedia saat ini.</td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+      <script>
+      </script>
 
 
 {% endblock content %}
