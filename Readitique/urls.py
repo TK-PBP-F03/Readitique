@@ -20,5 +20,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('profile/',include('rprofile.urls')),
-    path('bom/', include('bom.urls')),
 ]

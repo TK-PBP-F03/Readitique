@@ -10,20 +10,32 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from django.contrib.auth.models import User
+from rprofile.forms import BookForm
+from rprofile.models import UserProfile
+from .forms import UpdatePhoneNumberForm
+
 
 
 @login_required
 def profile(request):
     user = request.user
-    author_names = Book.objects.values_list('author', flat=True)  # Get a list of all author names from the database
-    role = "Reader"  # Default role is "Reader"
+    try:
+        user_profile = UserProfile.objects.get(user=user)  # Retrieve the associated UserProfile
+    except UserProfile.DoesNotExist:
+        user_profile = None
+
+    author_names = Book.objects.values_list('author', flat=True)
+    role = "Reader"
 
     if user.is_superuser:
         role = "Admin"
-    elif user.username in author_names:
+    elif user.username.replace('+', ' ') in author_names:
         role = "Writer"
 
-    return render(request, 'profile.html', {'user': user, 'role': role})
+    return render(request, 'profile.html', {'user': user, 'user_profile': user_profile, 'role': role})
 
 def bookofchoice(request):
     # Load JSON data containing a collection of books
@@ -37,3 +49,87 @@ def bookofchoice(request):
     
 
     return render(request, 'bookofyourchoice.html', {'book': random_book})
+
+@login_required
+def update_email(request):
+    if request.method == 'POST':
+        user = request.user
+        email = request.POST.get('email')
+        
+        if email:
+            user.email = email
+            user.save()
+            return JsonResponse({'message': 'Email updated successfully'}, status=200)
+        
+        else:
+            return JsonResponse({'error': 'Email data not provided.'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    
+@login_required
+def update_phone(request):
+    if request.method == 'POST':
+        user = request.user
+        phone = request.POST.get('phone')
+        
+        if phone:
+            user.profile.phone = phone  # Assuming user has a related 'profile' model
+            user.profile.save()
+            return JsonResponse({'message': 'Phone updated successfully'}, status=200)
+        
+        else:
+            return JsonResponse({'error': 'Phone data not provided.'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    
+
+    
+
+def edit_book(request, id):
+    # Get product berdasarkan ID
+    book = Book.objects.get(pk=id)
+
+    # Set product sebagai instance dari form
+    form = BookForm(request.POST or None, instance=book)
+
+    if form.is_valid() and request.method == "POST":
+        # Simpan form dan kembali ke halaman awal
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "edit_book.html", context)
+
+
+def show_json(request):
+    data = Book.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+def show_json_by_id(request, id):
+    data = Book.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+
+
+@csrf_exempt
+def update_phone_number(request):
+    if request.method == 'POST':
+        form = UpdatePhoneNumberForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            new_phone_number = form.cleaned_data['new_phone_number']
+
+            try:
+                user_profile = UserProfile.objects.get(user=user)
+                user_profile.handphone = new_phone_number
+                user_profile.save()
+                response = {'message': 'Phone number updated successfully.'}
+            except UserProfile.DoesNotExist:
+                response = {'error': 'UserProfile not found.'}
+        else:
+            response = {'error': 'Invalid form data.'}
+    else:
+        response = {'error': 'Invalid request method.'}
+
+    return JsonResponse(response)
+    
+

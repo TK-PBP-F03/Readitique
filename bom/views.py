@@ -25,12 +25,13 @@ def reset_counts(request):
     return redirect('bom:show_top_books')
 
 def rank_book(num_books=7):
-    books = Book.objects.all().order_by('-count_read')[:num_books]
+    books = Book.objects.all().order_by('-rating')[:num_books]
     return books
     
 def show_top_books(request):
     top_books = rank_book()
     context = {
         'top_books': top_books,
+        
     }
     return render(request, 'bom.html', context)
