@@ -43,7 +43,7 @@
                     <div class="card-mid" style="background-image: url('{{top_books.0.image_link}}')"></div>
                     <div class="card-mid-footer">
                         <div class="author" >{{top_books.0.author}}</div>
-                        <div class="title" >{{top_books.0.title}}</div>
+                        <div class="title" ><a href="{% url 'main:book_detail' book_id=top_books.0.index_key %}">{{top_books.0.title}}</a></div>
                     </div>
                 </div>
                 
@@ -52,7 +52,7 @@
                         <div class="card-image" style="background-image: url('{{top_books.1.image_link}}')"></div>
                         <div class="card-content">
                             <div class="author"> {{top_books.1.author}}</div>
-                            <div class="title"> {{top_books.1.title}}</div>
+                            <div class="title"><a href="{% url 'main:book_detail' book_id=top_books.1.index_key %}">{{top_books.1.title}}</a></div>
 
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                         <div class="card-image" style="background-image: url('{{top_books.2.image_link}}')"></div>
                         <div class="card-content">
                             <div class="author"> {{top_books.2.author}}</div>
-                            <div class="title"> {{top_books.2.title}}</div>
+                            <div class="title"> <a href="{% url 'main:book_detail' book_id=top_books.2.index_key %}">{{top_books.2.title}}</a></div>
                         </div>
                     </div>         
                     
@@ -68,7 +68,7 @@
                         <div class="card-image" style="background-image: url('{{top_books.3.image_link}}')"></div>
                         <div class="card-content">
                             <div class="author"> {{top_books.3.author}}</div>
-                            <div class="title"> {{top_books.3.title}}</div>
+                            <div class="title"> <a href="{% url 'main:book_detail' book_id=top_books.3.index_key %}">{{top_books.3.title}}</a></div>
                         </div>
                     </div>
                 </div>
