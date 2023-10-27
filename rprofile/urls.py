@@ -12,6 +12,7 @@ urlpatterns = [
   path('profile/edit_book/<int:id>/', views.edit_book, name='edit_book'),
   path('json/', views.show_json, name='show_json'), 
   path('json/<int:id>/', views.show_json_by_id, name='show_json_by_id'),
+  path('rprofile/update_phone_number/', views.update_phone_number, name='update_phone_number'),
  
   
 

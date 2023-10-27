@@ -12,23 +12,30 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-
+from django.contrib.auth.models import User
 from rprofile.forms import BookForm
+from rprofile.models import UserProfile
+from .forms import UpdatePhoneNumberForm
 
 
 
 @login_required
 def profile(request):
     user = request.user
-    author_names = Book.objects.values_list('author', flat=True)  # Get a list of all author names from the database
-    role = "Reader"  # Default role is "Reader"
+    try:
+        user_profile = UserProfile.objects.get(user=user)  # Retrieve the associated UserProfile
+    except UserProfile.DoesNotExist:
+        user_profile = None
+
+    author_names = Book.objects.values_list('author', flat=True)
+    role = "Reader"
 
     if user.is_superuser:
         role = "Admin"
-    elif user.username.replace('+',' ') in author_names:
+    elif user.username.replace('+', ' ') in author_names:
         role = "Writer"
 
-    return render(request, 'profile.html', {'user': user, 'role': role})
+    return render(request, 'profile.html', {'user': user, 'user_profile': user_profile, 'role': role})
 
 def bookofchoice(request):
     # Load JSON data containing a collection of books
@@ -101,5 +108,28 @@ def show_json_by_id(request, id):
     data = Book.objects.filter(pk=id)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
+
+
+@csrf_exempt
+def update_phone_number(request):
+    if request.method == 'POST':
+        form = UpdatePhoneNumberForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            new_phone_number = form.cleaned_data['new_phone_number']
+
+            try:
+                user_profile = UserProfile.objects.get(user=user)
+                user_profile.handphone = new_phone_number
+                user_profile.save()
+                response = {'message': 'Phone number updated successfully.'}
+            except UserProfile.DoesNotExist:
+                response = {'error': 'UserProfile not found.'}
+        else:
+            response = {'error': 'Invalid form data.'}
+    else:
+        response = {'error': 'Invalid request method.'}
+
+    return JsonResponse(response)
     
 
