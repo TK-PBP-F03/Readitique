@@ -49,6 +49,7 @@ background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 1
         </div>
 
     </div>
+    {% if user.is_authenticated %}
     <section class="vh-100" style="background-color: #f4f5f7;">
         <div class="container py-5 h-100">
           <div class="row d-flex justify-content-center align-items-center h-100">
@@ -109,6 +110,14 @@ background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 1
           </div>
         </div>
       </section>
+      {% else %}
+
+     
+
+      {% endif %}
+      
+
+
 
    
 

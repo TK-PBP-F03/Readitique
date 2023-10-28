@@ -12,7 +12,8 @@
             <a class="nav-anchor" href="{% url 'main:show-main' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2></a>
 
         {% else %}
-            <a class="nav-anchor" href="{% url 'main:show-main' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2></a>        {% endif %}
+            <a class="nav-anchor" href="{% url 'main:show-main' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2></a>
+            <a class="nav-anchor" href="{% url 'rprofile:not_login' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Profile</h2></a>      {% endif %}
 
         <div id="nav-options">
           <h2><a href="" class="nav-anchor">Reviews</a></h2>
