@@ -14,7 +14,14 @@ def show_reviews(request):
 def book_review(request, pk):
   try:
     book = get_object_or_404(Book, pk=pk)
-    return render(request, "review.html", {"book": book})
+    reviews = book.bookreview_set.all()
+    print(reviews)
+
+    context = {
+      'book': book,
+      'reviews': reviews,
+    }
+    return render(request, "review.html", context)
   except Http404:
     return HttpResponse("berhasil")
 

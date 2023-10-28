@@ -30,7 +30,7 @@
       <img id="main-bg" style="object-fit: cover;" src="https://i.pinimg.com/1200x/f2/1c/2f/f21c2f27294e010cdc2af50533b90228.jpg">
       <div id="quote-container">
         <div id="readitique">"FIND THE REVIEWS YOU NEED"</div>
-        <div id="kamaru">- Kamaru 2023</div>
+        <div id="kamaru">- Kevin 2023</div>
       </div>
     </div>      
 
@@ -105,11 +105,13 @@
             .then(data => {
                 for (book of data) {
                     let description = book['fields']['description'];
+                    let id = book['pk']
                     if (description.length > 100) {
                         description = description.substring(0, 95) + "...";
                     }
                     container.innerHTML += '<div class="col-md-4">' +
                         '<div class="card mb-3">' +
+                            `<a id="book-review-link" href="${id}">` +
                     '<div class="row g-0">' +
                         '<div class="col-md-4">' +
                             `<img src="${book['fields']['image_link']}" class="img-fluid" alt="Gambar" style="max-width: 100px; max-height: 150px;">` +
@@ -124,6 +126,7 @@
                             '</div>' +
                         '</div>' +
                     '</div>' +
+                    '</a>' +
                 '</div>' +
             '</div>';
                 }   
