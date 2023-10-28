@@ -9,13 +9,19 @@
     <div id="nav-bar-raw">
         {% if user.is_authenticated %}
             <h2 class="hi-or-login">Hello, <a class="nav-anchor" href="{% url 'rprofile:profile' %}">{{ user.username }}</a>!</h2>
+            <a class="nav-anchor" href="{% url 'main:show-main' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2></a>
+
         {% else %}
-            <h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2>
-        {% endif %}
+            <a class="nav-anchor" href="{% url 'main:show-main' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2></a>        {% endif %}
 
         <div id="nav-options">
-          <h2><a href="{% url 'review:reviews' %}" class="nav-anchor">Reviews</a></h2>
-          <h2><a href="" class="nav-anchor">Book of the Month</a></h2>
+          <h2><a href="" class="nav-anchor">Reviews</a></h2>
+        {% if user.is_authenticated %}
+            <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'bom:show_user_books' username=user.username %}" class="nav-anchor">Book of the Month</a></h2>
+        {% else %}
+            <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'bom:show_top_books' %}" class="nav-anchor">Book of the Month</a></h2>
+        {% endif %}
+          {% comment %} <h2><a href="{% url 'bom:show_top_books' %}" class="nav-anchor">Book of the Month</a></h2> {% endcomment %}
           <h2><a href="" class="nav-anchor">Books</a></h2>
           {% if user.is_authenticated %}
             <h2><a class="nav-anchor" href="{% url 'main:logout' %}">Logout</a></h2>
