@@ -7,4 +7,5 @@ class BookForm(forms.ModelForm):
         fields = ['title', 'author','genre', 'rating']
 
 class UpdatePhoneNumberForm(forms.Form):
-    new_phone_number = forms.IntegerField()
+    user_profile_id = forms.IntegerField(widget=forms.HiddenInput())  # A hidden field to store the user_profile_id
+    new_phone_number = forms.IntegerField()  # IntegerField for the new phone number

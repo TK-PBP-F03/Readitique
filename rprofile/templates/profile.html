@@ -62,12 +62,10 @@ background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 1
                           <p id="addedText">lol</p>
                           <form id="update-phone-form" method="post">
                             {% csrf_token %}
-                            <input type="hidden" name="user_profile_id" value="{{ user_profile.user.id }}">
+                            <input type="hidden" name="user_profile_id" value="{{ user_profile.id }}">
                             <input type="number" id="new-phone-number" name="new_phone_number" placeholder="New Phone Number">
                             <button id="update-phone-button" type="button">Update Phone Number</button>
                         </form>
-                        
-                          
                         </div>
                         <div class="col-6 mb-3">
                           <h6>Most Viewed</h6>
@@ -113,54 +111,54 @@ background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 1
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-      const updatePhoneButton = document.getElementById('update-phone-button');
-      updatePhoneButton.addEventListener('click', async () => {
-          const user_profile_id = document.querySelector('input[name="user_profile_id"]').value;
-          const new_phone_number = document.querySelector('input[name="new_phone_number"]').value;
+    const updatePhoneButton = document.getElementById('update-phone-button');
+    updatePhoneButton.addEventListener('click', async () => {
+      const user_profile_id = document.querySelector('input[name="user_profile_id"]').value;
+      const new_phone_number = document.querySelector('input[name="new_phone_number"]').value;
 
-          try {
-              const response = await fetch('/profile/rprofile/update_phone_number/', {
-                  method: 'POST',
-                  headers: {
-                      'Content-Type': 'application/json',
-                      'X-CSRFToken': getCookie('csrftoken')
-                  },
-                  body: JSON.stringify({
-                      user_profile_id: user_profile_id,
-                      new_phone_number: new_phone_number
-                  })
-              });
+      const formData = new FormData();
+      formData.append('user_profile_id', user_profile_id);
+      formData.append('new_phone_number', new_phone_number);
 
-              if (response.ok) {
-                  const data = await response.json();
-                  if (data.error) {
-                      alert(data.error);
-                  } else {
-                      alert(data.message);
-                  }
-              } else {
-                  alert('Failed to update phone number.');
-              }
-          } catch (error) {
-              console.error('Error:', error);
+      try {
+        const response = await fetch('/profile/rprofile/update_phone_number/', {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+          },
+          body: formData, // Pass the FormData object as the request body
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.error) {
+            alert(data.error);
+          } else {
+            alert(data.message);
           }
-      });
+        } else {
+          alert('Failed to update phone number.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    });
   });
 
   // Function to get the CSRF token from cookies
   function getCookie(name) {
-      let cookieValue = null;
-      if (document.cookie && document.cookie !== '') {
-          const cookies = document.cookie.split(';');
-          for (let i = 0; i < cookies.length; i++) {
-              const cookie = cookies[i].trim();
-              if (cookie.substring(0, name.length + 1) === name + '=') {
-                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                  break;
-              }
-          }
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === name + '=') {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
       }
-      return cookieValue;
+    }
+    return cookieValue;
   }
 </script>
 
