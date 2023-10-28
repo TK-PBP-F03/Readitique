@@ -1,15 +1,16 @@
 from django.shortcuts import render
-from .models import NewBook
-from django.contrib.auth.decorators import login_required
+from addbuku.models import NewBook
+from django.http import HttpResponse
+from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def add_buku(request):
     user = request.user
     if user.is_authenticated:
-        newbooks = NewBook.objects.all
+        newbooks = NewBook.objects.all()
     else:
-        newbooks = NewBook.objects.all[:6]
+        newbooks = NewBook.objects.all()[:6]
     context = {
         'newbooks': newbooks,
         'user': user,
@@ -17,20 +18,12 @@ def add_buku(request):
 
     return render(request,'addbuku.html',context)
 
-def get_filtered(request):
-    search_key = request.GET.get('search_text', '')
-
-    if (search_key == ''):
-        data = NewBook.objects.order_by("?")[:6]
-    else:
-      data = NewBook.objects.filter(title__icontains=search_key)[:6]
-
-    data_json = serializers.serialize("json", data)
-
-    return HttpResponse(data_json)
-
 def get_newbook_json(request):
-    new_book_item = NewBook.objects.all
+    user = request.user
+    if user.is_authenticated:
+        new_book_item = NewBook.objects.all()
+    else:
+        new_book_item = NewBook.objects.all()[:6]
     return HttpResponse(serializers.serialize('json', new_book_item))
 
 @csrf_exempt

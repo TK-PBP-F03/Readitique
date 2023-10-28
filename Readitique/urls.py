@@ -20,5 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('profile/',include('rprofile.urls')),
-    path('add_buku/',include('addbuku.urls')),
+    path('add-buku/',include('addbuku.urls')),
 ]

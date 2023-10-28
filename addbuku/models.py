@@ -9,7 +9,7 @@ class NewBook(models.Model):
     description = models.TextField()
     genre = models.CharField(max_length=255)
     rating = models.FloatField(default=0)
-    image_link = models.URLField(max_length=300, default="https://img.freepik.com/premium-vector/open-blank-book-illustration-school-supply-back-school-open-book-icon-reading-writing_502505-530.jpg?w=2000")
+    image_link = models.URLField(null=True, max_length=300, default="https://img.freepik.com/premium-vector/open-blank-book-illustration-school-supply-back-school-open-book-icon-reading-writing_502505-530.jpg?w=2000")
     count_read = models.PositiveIntegerField(default=0)
     votes = models.PositiveIntegerField(default=0)
 

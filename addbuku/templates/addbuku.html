@@ -35,16 +35,59 @@
     <div id="search-input">
         <h1>Book Suggestions:</h1>
         <div>
-            <label for="searc-book">Search by title:</label>
+            <label for="search-book">Search by title:</label>
             <input id="booksearch" type="text" name="label" style="margin-left: 8px"/>
         </div>
     </div>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {% if user.is_authenticated %}
+    <h4>Don't see a book you like? Suggest one <a data-bs-toggle="modal" data-bs-target="#bookModal" href="">here</a></h4>
+    {% endif %}
+
+    <div class="container" style="padding-top: 50px; min-height: 600px;">
+        <div class="row">
+            {% for book in newbooks %}
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="{{book.image_link}}" class="img-fluid" alt="Gambar" style="max-width: 100px; max-height: 150px;">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size: 16px;">{{ book.title }}</h5>
+                                <p class="card-text" style="font-size: 12px;">Author: {{ book.author }}</p>
+                                <p class="card-text" style="font-size: 12px;">
+                                <span id="description{{ forloop.counter }}" data-description="{{ book.Description}}">{{ book.description|slice:":100" }}</span>
+                                {% if book.description|length > 100 %}
+                                    <a href="javascript:void(0);" class="show-more" data-target="description{{ forloop.counter }}">Tampilkan Lebih Banyak</a>
+                                {% endif %}
+                            </p>
+                            {%if user.is_authenticated%}
+                            <button type="button" class="btn btn-success" id="vote">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"></path>
+                                </svg>
+                                {{book.votes}} Votes
+                            </button>
+                            {%endif%}
+                            {%if user.is_superuser %}
+                            <button type="button" class="btn btn-success" id="approve">Approve</button>
+                            {%endif%}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="modal fade" id="bookModal" tabindex="-1" aria-labelledby="bookModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Suggest a book!</h1>
+                    <h1 class="modal-title fs-5" id="bookModalLabel">Suggest a book!</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -66,13 +109,8 @@
                             <label for="genre" class="col-form-label">Genre:</label>
                             <input type="text" class="form-control" id="genre" name="genre"></input>
                         </div>
-                        <div class="mb-3">
-                            <form id="imageForm">
-                                <div class="form-group">
-                                  <label for="image_link">Image URL:</label>
-                                  <input type="text" class="form-control" id="image_link" placeholder="Enter image URL">
-                                </div>
-                              </form>
+                            <label for="image_link">Image URL:</label>
+                            <input type="url" class="form-control" id="image_link" placeholder="Enter image URL">
                         </div>
                     </form>
                 </div>
@@ -83,83 +121,48 @@
             </div>
         </div>
     </div>
-    
-    {% if user.is_authenticated %}
-    <h4>Don't see a book you like? Suggest one <a data-bs-toggle="modal" data-bs-target="#exampleModal" href="">here</a></h4>
-    {% endif %}
 
     <script>
-        searchBook = document.getElementById("booksearch");
-        searchBook.addEventListener("input", (e) => {
-            e.preventDefault();
-            const scrollPos = window.scrollY;
-
-            const container = document.querySelector(".row");
-            container.innerHTML = "";
-            let value = e.target.value;
-            const base = "{% url 'addbuku:get-filtered' %}"
-
-            fetch(`${base}?search_text=${value}`)
-            .then(response => response.json())
-            .then(data => {
-                for (book of newbooks) {
-                    let description = book['fields']['description'];
-                    if (description.length > 100) {
-                        description = description.substring(0, 95) + "...";
-                    }
-                    container.innerHTML += '<div class="col-md-4">' +
-                        '<div class="card mb-3">' +
-                    '<div class="row g-0">' +
-                        '<div class="col-md-4">' +
-                            `<img src="${book['fields']['image_link']}" class="img-fluid" alt="Gambar" style="max-width: 100px; max-height: 150px;">` +
-                        '</div>' +
-                        '<div class="col-md-8">' +
-                            '<div class="card-body">' +
-                                `<h5 class="card-title" style="font-size: 16px;">${book['fields']['title']}</h5>` +
-                                `<p class="card-text" style="font-size: 12px;">Author: ${book['fields']['author']}</p>` +
-                                '<p class="card-text" style="font-size: 12px;">' +
-                                `<span data-description="${description}">${description}</span>` +
-                            '</p>' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>' +
-                '</div>' +
-            '</div>';
-                }   
-            })
-            .then(() => {
-                setTimeout(() => {
-                window.scrollTo(0, scrollPos);
-                }, 10);
-            });
-        });
-        
         async function getNewBooks() {
             return fetch("{% url 'addbuku:get_newbook_json' %}").then((res) => res.json())
         }
 
         async function refreshNewBooks() {
-        document.getElementById("button-row").innerHTML = ""
+        document.getElementsByClassName("row").innerHTML = ""
         const new_books = await getNewBooks()
         let htmlString = ""
         new_books.forEach((item) => {
             let description = item.fields.description;
-                if (description.length > 100) {
-                    description = description.substring(0, 95) + "...";
-                }
+            if (description.length > 100) {
+                description = description.substring(0, 95) + "...";
+            }
             htmlString += `\n<div class="col-md-4">
                 <div class="card mb-3">
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <img src="${item.fields.image_link}" class="img-fluid" alt="Gambar" style="max-width: 100px; max-height: 150px;">
+                            <img src="{{book.image_link}}" class="img-fluid" alt="Gambar" style="max-width: 100px; max-height: 150px;">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h5 class="card-title" style="font-size: 16px;">${ item.fields.title }</h5>
-                                <p class="card-text" style="font-size: 12px;">Author: ${ item.fields.author }</p>
+                                <h5 class="card-title" style="font-size: 16px;">{{ book.title }}</h5>
+                                <p class="card-text" style="font-size: 12px;">Author: {{ book.author }}</p>
                                 <p class="card-text" style="font-size: 12px;">
-                                <span data-description="${description}">${description}</span>
-                                </p>
+                                <span id="description{{ forloop.counter }}" data-description="{{ book.Description}}">{{ book.description|slice:":100" }}</span>
+                                {% if book.description|length > 100 %}
+                                    <a href="javascript:void(0);" class="show-more" data-target="description{{ forloop.counter }}">Tampilkan Lebih Banyak</a>
+                                {% endif %}
+                            </p>
+                            {%if user.is_authenticated%}
+                            <button type="button" class="btn btn-success" id="vote">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"></path>
+                                </svg>
+                                {{book.votes}} Votes
+                            </button>
+                            {%endif%}
+                            {%if user.is_superuser %}
+                            <button type="button" class="btn btn-success" id="approve">Approve</button>
+                            {%endif%}
                             </div>
                         </div>
                     </div>
@@ -167,19 +170,26 @@
             </div>` 
         })
         
-        document.getElementById("button-row").innerHTML = htmlString
+        document.getElementsByClassName("row").innerHTML = htmlString
     }
 
     refreshNewBooks()
 
     function addNewBook() {
+        const form = document.querySelector('#form');
+        const formData = new FormData(form);
+
+        const imageLink = document.querySelector('#image_link').value;
+        formData.append('image_link', imageLink);
+        console.log(formData);
+
         fetch("{% url 'addbuku:add_newbook_ajax' %}", {
             method: "POST",
-            body: new FormData(document.querySelector('#form'))
-        }).then(refreshNewBooks)
+            body: formData
+        }).then(refreshNewBooks);
 
-        document.getElementById("form").reset()
-        return false
+        form.reset();
+        return false;
     }
 
     document.getElementById("button_add").onclick = addNewBook
