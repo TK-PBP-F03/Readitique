@@ -18,6 +18,9 @@
   overflow: hidden;
   width: 400px;
   height: 180px;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+
 }
 .card-mid-bom {
   display: flex;
@@ -79,7 +82,7 @@
   cursor: pointer;
 }
 
-.container1 {
+.container-trend {
   overflow: auto;
   display: flex;
   scroll-snap-type: x mandatory;
@@ -88,22 +91,26 @@
   padding: 0 15px;
 }
 
-.card1 {
+.card-trend {
   background: rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(7px);
   -webkit-backdrop-filter: blur(7px);
   border-radius: 10px;
   padding: 2rem;
-  margin: 1rem;
-  width: 100%;
+  margin: 1rem auto;
+  width: 300px;
+  height: 350px;
+  align-items: center;
+  flex-direction: row;
+
 }
 
-.container1:hover > :not(:hover) {
+.container-trend:hover > :not(:hover) {
   opacity: 0.2;
 }
 
-.title1 {
+.title-trend {
   width: 100%;
   display: inline-block;
   word-break: break-all;
@@ -112,4 +119,30 @@
   text-overflow: ellipsis;
   text-align: center;
   margin: 1rem auto;
+}
+.author-trend {
+  width: 100%;
+  display: inline-block;
+  word-break: break-all;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  margin: auto;
+}
+
+.card-trend-image-bom {
+  background-color: rgb(236, 236, 236);
+  max-width: 115px;
+  height: 180px;
+  border-radius: 6px 0 0 6px;
+  background-size: cover; 
+  background-repeat: no-repeat;
+  flex: 1;
+  margin: auto;
+}
+
+
+.card-trend-image-bom:hover {
+  transform: scale(0.98);
 }

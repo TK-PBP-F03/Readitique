@@ -47,7 +47,7 @@
                     <div class="card-mid-bom" style="background-image: url('{{top_books.0.image_link}}')"></div>
                     <div class="card-mid-footer-bom">
                         <div class="author-bom" >{{top_books.0.author}}</div>
-                        {% comment %} <div class="title-bom" ><a href="{% url 'main:book_detail' book_id=top_books.0.index_key %}">{{top_books.0.title}}</a></div> {% endcomment %}
+                        <div class="title-bom" ><a href="{% url 'main:book_detail' book_id=top_books.0.index_key %}">{{top_books.0.title}}</a></div>
                     </div>
                 </div>
                 
@@ -56,7 +56,7 @@
                         <div class="card-image-bom" style="background-image: url('{{top_books.1.image_link}}')"></div>
                         <div class="card-content-bom">
                             <div class="author-bom"> {{top_books.1.author}}</div>
-                            {% comment %} <div class="title-bom"><a href="{% url 'main:book_detail' book_id=top_books.1.index_key %}">{{top_books.1.title}}</a></div> {% endcomment %}
+                            <div class="title-bom"><a href="{% url 'main:book_detail' book_id=top_books.1.index_key %}">{{top_books.1.title}}</a></div>
 
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                         <div class="card-image-bom" style="background-image: url('{{top_books.2.image_link}}')"></div>
                         <div class="card-content-bom">
                             <div class="author-bom"> {{top_books.2.author}}</div>
-                            {% comment %} <div class="title-bom"> <a href="{% url 'main:book_detail' book_id=top_books.2.index_key %}">{{top_books.2.title}}</a></div> {% endcomment %}
+                            <div class="title-bom"> <a href="{% url 'main:book_detail' book_id=top_books.2.index_key %}">{{top_books.2.title}}</a></div>
                         </div>
                     </div>         
                     
@@ -72,7 +72,7 @@
                         <div class="card-image-bom" style="background-image: url('{{top_books.3.image_link}}')"></div>
                         <div class="card-content-bom">
                             <div class="author-bom"> {{top_books.3.author}}</div>
-                            {% comment %} <div class="title-bom"> <a href="{% url 'main:book_detail' book_id=top_books.3.index_key %}">{{top_books.3.title}}</a></div> {% endcomment %}
+                            <div class="title-bom"> <a href="{% url 'main:book_detail' book_id=top_books.3.index_key %}">{{top_books.3.title}}</a></div>
                         </div>
                     </div>
                 </div>
@@ -81,14 +81,14 @@
                         <div class="card-image-bom" style="background-image: url('{{top_books.4.image_link}}')"></div>
                         <div class="card-content-bom">
                             <div class="author-bom"> {{top_books.4.author}}</div>
-                            {% comment %} <div class="title-bom">  <a href="{% url 'main:book_detail' book_id=top_books.4.index_key %}">{{top_books.4.title}}</a></div> {% endcomment %}
+                            <div class="title-bom">  <a href="{% url 'main:book_detail' book_id=top_books.4.index_key %}">{{top_books.4.title}}</a></div>
                         </div>
                     </div>
                     <div class="card-bom">
                         <div class="card-image-bom" style="background-image: url('{{top_books.5.image_link}}')"></div>
                         <div class="card-content-bom">
                             <div class="author-bom"> {{top_books.5.author}}</div>
-                            {% comment %} <div class="title-bom">  <a href="{% url 'main:book_detail' book_id=top_books.5.index_key %}">{{top_books.5.title}}</a></div> {% endcomment %}
+                            <div class="title-bom">  <a href="{% url 'main:book_detail' book_id=top_books.5.index_key %}">{{top_books.5.title}}</a></div>
                         </div>
                     </div>         
                     
@@ -96,7 +96,7 @@
                         <div class="card-image-bom" style="background-image: url('{{top_books.6.image_link}}')"></div>
                         <div class="card-content-bom">
                             <div class="author-bom"> {{top_books.6.author}}</div>
-                            {% comment %} <div class="title-bom">  <a href="{% url 'main:book_detail' book_id=top_books.6.index_key %}">{{top_books.6.title}}</a></div> {% endcomment %}
+                            <div class="title-bom">  <a href="{% url 'main:book_detail' book_id=top_books.6.index_key %}">{{top_books.6.title}}</a></div>
                         </div>
                     </div>
                 </div> 
@@ -105,31 +105,48 @@
 
     </div>
     {% if user.is_authenticated %}
-        <h2 class="text-center">Trending</h2> 
-        <div class="container1">
-            <div class="card1">
-                <p class="title1">
-                {{user_profile.user.username}}
-                </p>
+        <h2 class="text-center" >Trending</h2> 
+        <div class="container-trend">
+           {% if favorite_books.0 is not None %}
+            <div class="card-trend">
+                <div class="card-trend-image-bom" style="background-image: url('{{ favorite_books.0.image_link }}')"></div>
+                <div class="card-content-bom">
+                <div class="title-trend">{{ favorite_books.0.title }}</div>
+                <div class="author-trend">{{ favorite_books.0.author }}</div>
+                </div>
             </div>
-            <div class="card1">
-                <p class="title1">
-                {{favorite_books.0.title}}
-                </p>
-            </div>
-            <div class="card1">
-                <p class="title1">
-                </p>
-            </div>
+            {% endif %}
 
-            <div class="card1">
-                <p class="title1">
-                </p>
+            {% if favorite_books.1 is not None %}
+            <div class="card-trend">
+                <div class="card-trend-image-bom" style="background-image: url('{{favorite_books.1.image_link}}')"></div>
+                <div class="card-content-bom" >
+                    <div class="title-trend"> {{favorite_books.1.title}}</div>
+                    <div class="author-trend"> {{favorite_books.1.author}}</div>
+                </div>
             </div>
-            <div class="card1">
-                <p class="title1">
-                </p>
+            {% endif %}
+
+            {% if favorite_books.2 is not None %}
+            <div class="card-trend">
+                <div class="card-trend-image-bom" style="background-image: url('{{favorite_books.2.image_link}}')"></div>
+                <div class="card-content-bom" >
+                    <div class="title-trend"> {{favorite_books.2.title}}</div>
+                    <div class="author-trend"> {{favorite_books.2.author}}</div>
+                </div>
             </div>
+            {% endif %}
+
+            {% if favorite_books.3 is not None %}
+            <div class="card-trend">
+                <div class="card-trend-image-bom" style="background-image: url('{{favorite_books.3.image_link}}')"></div>
+                <div class="card-content-bom" >
+                    <div class="title-trend"> {{favorite_books.3.title}}</div>
+                    <div class="author-trend"> {{favorite_books.3.author}}</div>
+                </div>
+            </div>
+            {% endif %}
+            
             
         </div>
     {% endif %}

@@ -88,7 +88,7 @@ def add_to_reading_list(request, book_id):
     user_profile.favorite_books.add(book)
     user_profile.save()
     
-    return redirect('main:user_books', username=user_profile.user.username)  # Ganti 'book_list' dengan URL yang sesuai
+    return redirect('main:book_detail',book_id )  # Ganti 'book_list' dengan URL yang sesuai
 
 def user_books(request, username):
     user_profile = UserProfile.objects.get(user__username=username)
