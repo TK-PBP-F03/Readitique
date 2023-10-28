@@ -26,7 +26,7 @@ def profile(request):
 
     try:
         user_profile = UserProfile.objects.get(user=user)
-        user_profile_id = user_profile.id  # Retrieve the user_profile_id
+        user_profile_id = user_profile.id  # type: ignore # Retrieve the user_profile_id
     except UserProfile.DoesNotExist:
         user_profile = None
 
