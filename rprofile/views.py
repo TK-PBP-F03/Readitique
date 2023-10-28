@@ -53,6 +53,10 @@ def bookofchoice(request):
 
     return render(request, 'bookofyourchoice.html', {'book': random_book})
 
+def not_login(request):
+    return render(request, 'not_login.html')
+
+
 @login_required
 def update_email(request):
     if request.method == 'POST':
