@@ -14,7 +14,7 @@
         {% endif %}
 
         <div id="nav-options">
-          <h2><a href="{% url 'review:reviews' %}" class="nav-anchor">Reviews</a></h2>
+          <h2><a href="" class="nav-anchor">Reviews</a></h2>
           <h2><a href="" class="nav-anchor">Book of the Month</a></h2>
           <h2><a href="" class="nav-anchor">Books</a></h2>
           {% if user.is_authenticated %}
@@ -27,18 +27,15 @@
     </div>
 
     <div id="main-title">
-      <img id="main-bg" style="object-fit: cover;" src="https://img.freepik.com/free-photo/abundant-collection-antique-books-wooden-shelves-generated-by-ai_188544-29660.jpg">
+      <img id="main-bg" style="object-fit: cover;" src="https://i.pinimg.com/1200x/f2/1c/2f/f21c2f27294e010cdc2af50533b90228.jpg">
       <div id="quote-container">
-        <div id="readitique">"Readitique akan terus berkembang tapi tidak akan pernah sempurna. karena kesempurnaan hanya milik Tuhan"</div>
+        <div id="readitique">"FIND THE REVIEWS YOU NEED"</div>
         <div id="kamaru">- Kamaru 2023</div>
       </div>
-    </div>
-    
-
-    {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
+    </div>      
 
     <div id="search-input">
-        <h1>Book Recomendations:</h1>
+        <h1>Find Review:</h1>
         <div>
             <label for="search-book">Search by title:</label>
             <input id="booksearch" type="text" name="search-book" style="margin-left: 8px"/>
@@ -51,23 +48,25 @@
             {% for book in data %}
             <div class="col-md-4">
                 <div class="card mb-3">
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                            <img src="{{book.image_link}}" class="img-fluid" alt="Gambar" style="max-width: 100px; max-height: 150px;">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title" style="font-size: 16px;">{{ book.title }}</h5>
-                                <p class="card-text" style="font-size: 12px;">Author: {{ book.author }}</p>
-                                <p class="card-text" style="font-size: 12px;">
-                                <span id="description{{ forloop.counter }}" data-description="{{ book.Description}}">{{ book.description|slice:":100" }}</span>
-                                {% if book.description|length > 100 %}
-                                    <a href="javascript:void(0);" class="show-more" data-target="description{{ forloop.counter }}">Tampilkan Lebih Banyak</a>
-                                {% endif %}
-                            </p>
+                    <a id="book-review-link" href="{% url 'review:book-review' book.pk %}">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="{{book.image_link}}" class="img-fluid" alt="Gambar" style="max-width: 100px; max-height: 150px;">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title" style="font-size: 16px;">{{ book.title }}</h5>
+                                    <p class="card-text" style="font-size: 12px;">Author: {{ book.author }}</p>
+                                    <p class="card-text" style="font-size: 12px;">
+                                    <span id="description{{ forloop.counter }}" data-description="{{ book.Description}}">{{ book.description|slice:":100" }}</span>
+                                    {% if book.description|length > 100 %}
+                                        <span>...</span>
+                                    {% endif %}
+                                </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
             {% endfor %}
