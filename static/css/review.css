@@ -16,6 +16,8 @@
   display: flex;
   justify-content: space-around;
   column-gap: 60px;
+
+  box-shadow: 1px 1px 1 rgba(0, 0, 0, 0.2);
 }
 
 #book-cover {
