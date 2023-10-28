@@ -9,20 +9,13 @@
     <div id="nav-bar-raw">
         {% if user.is_authenticated %}
             <h2 class="hi-or-login">Hello, <a class="nav-anchor" href="{% url 'rprofile:profile' %}">{{ user.username }}</a>!</h2>
-            <a class="nav-anchor" href="{% url 'main:show-main' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2></a>
-
         {% else %}
-            <a class="nav-anchor" href="{% url 'main:show-main' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2></a>
-            <a class="nav-anchor" href="{% url 'rprofile:not_login' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Profile</h2></a>      {% endif %}
+            <h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2>
+        {% endif %}
 
         <div id="nav-options">
           <h2><a href="" class="nav-anchor">Reviews</a></h2>
-        {% if user.is_authenticated %}
-            <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'bom:show_user_books' username=user.username %}" class="nav-anchor">Book of the Month</a></h2>
-        {% else %}
-            <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'bom:show_top_books' %}" class="nav-anchor">Book of the Month</a></h2>
-        {% endif %}
-          {% comment %} <h2><a href="{% url 'bom:show_top_books' %}" class="nav-anchor">Book of the Month</a></h2> {% endcomment %}
+          <h2><a href="" class="nav-anchor">Book of the Month</a></h2>
           <h2><a href="" class="nav-anchor">Books</a></h2>
           {% if user.is_authenticated %}
             <h2><a class="nav-anchor" href="{% url 'main:logout' %}">Logout</a></h2>
@@ -34,10 +27,10 @@
     </div>
 
     <div id="main-title">
-      <img id="main-bg" style="object-fit: cover;" src="https://img.freepik.com/free-photo/abundant-collection-antique-books-wooden-shelves-generated-by-ai_188544-29660.jpg">
+      <img id="main-bg" src="https://img.freepik.com/free-photo/abundant-collection-antique-books-wooden-shelves-generated-by-ai_188544-29660.jpg">
       <div id="quote-container">
         <div id="readitique">"Readitique akan terus berkembang tapi tidak akan pernah sempurna. karena kesempurnaan hanya milik Tuhan"</div>
-        <div id="kamaru">- Kamaru 2023</div>
+        <div id="kamaru">-Kamaru 2023</div>
       </div>
     </div>
     
@@ -47,8 +40,8 @@
     <div id="search-input">
         <h1>Book Recomendations:</h1>
         <div>
-            <label for="search-book">Search by title:</label>
-            <input id="booksearch" type="text" name="search-book" style="margin-left: 8px"/>
+            <label for="searc-book">Search by title:</label>
+            <input id="booksearch" type="text" name="label" style="margin-left: 8px"/>
         </div>
     </div>
 

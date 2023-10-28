@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .models import Book
@@ -8,9 +8,7 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from rprofile.models import UserProfile
+
 
 # Create your views here.
 
@@ -20,6 +18,7 @@ from rprofile.models import UserProfile
 def show_main(request):
     data = Book.objects.order_by("?")[:6]
     user = request.user
+    print(user)
     context = {
         'data': data,
         'user': user,
@@ -40,27 +39,6 @@ def get_filtered(request):
 
     return HttpResponse(data_json)
 
-def register(request):
-    form = UserCreationForm()
-
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
-
-        if form.is_valid():
-            # Create a new User instance
-            user = form.save()
-            
-            # Create a UserProfile and associate it with the User
-            user_profile = UserProfile(user=user)
-            user_profile.save()
-
-            login(request, user)
-            messages.success(request, 'Your account has been successfully created!')
-            return redirect('main:show-main')
-
-    context = {'form': form}
-    return render(request, 'register.html', context)
-
 def login_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -77,18 +55,4 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect("main:show-main")
-
-def book_detail(request,book_id):
-    book = get_object_or_404(Book,id=book_id + 1)
-    context = {'book':book}
-
-    return render(request, 'book_detail.html', context)
-
-@login_required
-def add_to_reading_list(request, book_id):
-    user_profile = UserProfile.objects.get(user=request.user)
-    book = Book.objects.get(id=book_id+1)
-    user_profile.favorite_books.add(book)
-    user_profile.save()
-    return redirect('main:book_detail',book_id ) 
 
