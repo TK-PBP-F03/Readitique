@@ -22,8 +22,11 @@ from .forms import UpdatePhoneNumberForm
 @login_required
 def profile(request):
     user = request.user
+    user_profile_id = None  # Initialize user_profile_id as None
+
     try:
-        user_profile = UserProfile.objects.get(user=user)  # Retrieve the associated UserProfile
+        user_profile = UserProfile.objects.get(user=user)
+        user_profile_id = user_profile.id  # Retrieve the user_profile_id
     except UserProfile.DoesNotExist:
         user_profile = None
 
@@ -35,7 +38,7 @@ def profile(request):
     elif user.username.replace('+', ' ') in author_names:
         role = "Writer"
 
-    return render(request, 'profile.html', {'user': user, 'user_profile': user_profile, 'role': role})
+    return render(request, 'profile.html', {'user': user, 'user_profile': user_profile, 'role': role, 'user_profile_id': user_profile_id})
 
 def bookofchoice(request):
     # Load JSON data containing a collection of books
@@ -110,26 +113,23 @@ def show_json_by_id(request, id):
 
 
 
-@csrf_exempt
 def update_phone_number(request):
     if request.method == 'POST':
         form = UpdatePhoneNumberForm(request.POST)
+        
         if form.is_valid():
-            user = request.user
+            user_profile_id = form.cleaned_data['user_profile_id']
             new_phone_number = form.cleaned_data['new_phone_number']
-
+            
             try:
-                user_profile = UserProfile.objects.get(user=user)
+                user_profile = UserProfile.objects.get(id=user_profile_id)
                 user_profile.handphone = new_phone_number
                 user_profile.save()
-                response = {'message': 'Phone number updated successfully.'}
+                return JsonResponse({'message': 'Phone number updated successfully'})
             except UserProfile.DoesNotExist:
-                response = {'error': 'UserProfile not found.'}
+                return JsonResponse({'error': 'User profile not found'})
         else:
-            response = {'error': 'Invalid form data.'}
+            return JsonResponse({'error': 'Form data is invalid'})
     else:
-        response = {'error': 'Invalid request method.'}
-
-    return JsonResponse(response)
-    
+        return JsonResponse({'error': 'Invalid request method'})
 
