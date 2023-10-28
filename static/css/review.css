@@ -1,11 +1,17 @@
 #review-section {
   width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   margin-top: 120px;
+  row-gap: 30px;
 }
 
 #book-desc {
+  padding: 30px;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10px;
   width: 75%;
   display: flex;
   justify-content: space-around;
@@ -13,15 +19,16 @@
 }
 
 #book-cover {
-  width: 300px;
+  width: 30%;
+  max-height: 200px;
+  object-fit: cover;
   border-radius: 10px;
 }
 
 #title-desc {
-  margin-top: 20px;
   font-family: Roboto;
 }
- 
+
 #review-book-title {
   font-size: 30px;
   font-weight: 600;
@@ -32,6 +39,32 @@
   font-size: 18px;
 }
 
-#review-book-rating {
-  font-size: 18px;;
+#user-reviews-section {
+  font-size: 18px;
+  width: 75%
 }
+
+#review-section-title {
+  margin-left: 20px;
+  font-size: 20px;
+  padding-bottom: 6px;
+  border-bottom: 1px black solid;
+}
+
+#reviews-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#user-review {
+  display: flex;
+  column-gap: 20px;
+  margin-top: 30px;
+  border-bottom: 1px solid black;
+}
+
+#text-review {
+  width: 100% ;
+}
+
