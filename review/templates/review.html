@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+{% endblock meta %}
+
+{% block content %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div id="nav-bar-raw">
+  {% if user.is_authenticated %}
+      <h2 class="hi-or-login">Hello, <a class="nav-anchor" href="{% url 'rprofile:profile' %}">{{ user.username }}</a>!</h2>
+  {% else %}
+      <h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2>
+  {% endif %}
+
+  <div id="nav-options">
+    <h2><a href="{% url 'review:reviews' %}" class="nav-anchor">Reviews</a></h2>
+    <h2><a href="" class="nav-anchor">Book of the Month</a></h2>
+    <h2><a href="" class="nav-anchor">Books</a></h2>
+    {% if user.is_authenticated %}
+      <h2><a class="nav-anchor" href="{% url 'main:logout' %}">Logout</a></h2>
+    {% else %}
+      <h2 class="hi-or-login"><a class="nav-anchor" href="{% url 'main:login' %}">Login</a></h2>
+    {% endif %}
+  </div>
+
+</div>
+
+<section id="review-section">
+  <div id="book-desc">
+    <img id="book-cover" src="{{book.image_link}}" />
+    <div id="title-desc">
+      <p id="review-book-title">{{ book.title }}</p>
+      <p id="review-book-desc">{{ book.description }}</p>
+      <p id="review-book-rating">Rating: {{ book.rating }} <span class="fa fa-star" style="color: rgb(205, 205, 6)"></span></p>
+    </div>
+  </div>
+</section>
+{% endblock content %}
