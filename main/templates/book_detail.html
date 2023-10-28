@@ -2,28 +2,59 @@
 {% load static %}
 
 {% block content %}
-<div class="container">
-    <form method="post" action="{% url 'main:add_to_reading_list' book.index_key %}">
-            {% csrf_token %}
-            <button type="submit">Tambahkan ke Daftar Baca</button>
-        </form>
+    <div id="nav-bar-raw">
+        {% if user.is_authenticated %}
+            <h2 class="hi-or-login">Hello, <a class="nav-anchor" href="{% url 'rprofile:profile' %}">{{ user.username }}</a>!</h2>
+            <h2 class="hi-or-login" style="color: #e5f2c9"><a class="nav-anchor" href="{% url 'main:show-main' %}">Readitique</a></h2>
+        {% else %}
+            <h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2>
+        {% endif %}
+
+        <div id="nav-options">
+          <h2><a href="" class="nav-anchor">Reviews</a></h2>
+          <h2><a href="{% url 'bom:show_top_books' %}" class="nav-anchor">Book of the Month</a></h2>
+          <h2><a href="{% url 'rprofile:bookofchoice' %}" class="nav-anchor">Book of your Choice</a></h2>
+          <h2><a href="" class="nav-anchor">Books</a></h2>
+          {% if user.is_authenticated %}
+            <h2><a class="nav-anchor" href="{% url 'main:logout' %}">Logout</a></h2>
+          {% else %}
+            <h2 class="hi-or-login"><a class="nav-anchor" href="{% url 'main:login' %}">Login</a></h2>
+          {% endif %}
+        </div>
+
+    </div>
+<div class="container-detail">
     <h1>Detail Buku</h1>
-    <div class="card">
-        <div class="card-content">
-            <div class="img-container">
-                <img src="{{ book.image_link }}" class="card-img" alt="{{ book.title }}">
-                <button class="btn-read">Want to Read</button>
+    <div class="card-detail">
+        <div class="card-detail-content">
+            <div class="img-container-detail">
+                <img src="{{ book.image_link }}" class="card-detail-img" alt="{{ book.title }}">
+                <button class="btn-read-detail"><a href="{% url 'main:add_to_reading_list' book_id=book.index_key %}">Want to Read</a></button>
             </div>
-            <div class="card-body">
-                <h5 class="card-title">{{ book.title }}</h5>
-                <p class="card-text">Penulis: {{ book.author }}</p>
-                <p class="card-text">Deskripsi: {{ book.description }}</p>
-                <p class="card-text">Genre: {{ book.genre }}</p>
+            <div class="card-detail-body">
+                <h5 class="card-detail-title">{{ book.title }}</h5>
+                <p class="card-detail-text">Penulis: {{ book.author }}</p>
+                <p class="card-detail-text">Deskripsi: {{ book.description }}</p>
+                <p class="card-detail-text">Genre: {{ book.genre }}</p>
             </div>
         </div>
-        <div class="card-footer">
-            <p class="card-rating">Rating: {{ book.rating }}</p>
-            <button class="btn-review">Write a Review</button>
+        <div class="card-detail-footer">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        
+            <div class="rating-detail">
+                {% for i in "12345"|make_list %}
+                    {% if book.rating|floatformat > i %}
+                        <span class="fa fa-star checked"></span>
+                    {% elif book.rating|floatformat|add:"-0.5" > i %}
+                        <span class="fa fa-star-half-o checked"></span>
+                    {% else %}
+                        <span class="fa fa-star"></span>
+                    {% endif %}
+                {% endfor %}
+                <span class="rating-number-detail">{{ book.rating }}</span>
+
+            </div>
+            <button class="btn-review-detail">Write a Review</button>
         </div>
     </div>
 </div>

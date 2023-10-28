@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
+
+from rprofile.models import UserProfile
 from .models import Book
 from django.shortcuts import redirect
 # Create your views here.
@@ -27,11 +29,13 @@ def reset_counts(request):
 def rank_book(num_books=7):
     books = Book.objects.all().order_by('-count_read')[:num_books]
     return books
-    
+
 def show_top_books(request):
     top_books = rank_book()
+    
     context = {
         'top_books': top_books,
         
     }
     return render(request, 'bom.html', context)
+

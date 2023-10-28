@@ -1,33 +1,61 @@
-{% extends 'base.html' %}
+{% comment %} {% extends 'base.html' %}
 {% load static %}
 
+{% block content %}
+    <div id="nav-bar-raw">
+        {% if user.is_authenticated %}
+            <h2 class="hi-or-login">Hello, <a class="nav-anchor" href="{% url 'rprofile:profile' %}">{{ user.username }}</a>!</h2>
+            <h2 class="hi-or-login" style="color: #e5f2c9"><a class="nav-anchor" href="{% url 'main:show-main' %}">Readitique</a></h2>
+        {% else %}
+            <h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2>
+        {% endif %}
 
-<div id="book-content">
+        <div id="nav-options">
+          <h2><a href="" class="nav-anchor">Reviews</a></h2>
+          <h2><a href="{% url 'bom:show_top_books' %}" class="nav-anchor">Book of the Month</a></h2>
+          <h2><a href="{% url 'rprofile:bookofchoice' %}" class="nav-anchor">Book of your Choice</a></h2>
+          <h2><a href="" class="nav-anchor">Books</a></h2>
+          {% if user.is_authenticated %}
+            <h2><a class="nav-anchor" href="{% url 'main:logout' %}">Logout</a></h2>
+          {% else %}
+            <h2 class="hi-or-login"><a class="nav-anchor" href="{% url 'main:login' %}">Login</a></h2>
+          {% endif %}
+        </div>
 
-    <h1>{{ book.title }}</h1>
-    <p>{{ book.description }}</p>
+    </div>
+<div class="container-detail">
+    <h1>Detail Buku</h1>
+    <div class="card-detail">
+        <div class="card-detail-content">
+            <div class="img-container-detail">
+                <img src="{{ book.image_link }}" class="card-detail-img" alt="{{ book.title }}">
+                <button class="btn-read-detail"><a href="{% url 'main:add_to_reading_list' book_id=book.index_key %}">Want to Read</a></button>
+            </div>
+            <div class="card-detail-body">
+                <h5 class="card-detail-title">{{ book.title }}</h5>
+                <p class="card-detail-text">Penulis: {{ book.author }}</p>
+                <p class="card-detail-text">Deskripsi: {{ book.description }}</p>
+                <p class="card-detail-text">Genre: {{ book.genre }}</p>
+            </div>
+        </div>
+        <div class="card-detail-footer">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        
+            <div class="rating-detail">
+                {% for i in "12345"|make_list %}
+                    {% if book.rating|floatformat > i %}
+                        <span class="fa fa-star checked"></span>
+                    {% elif book.rating|floatformat|add:"-0.5" > i %}
+                        <span class="fa fa-star-half-o checked"></span>
+                    {% else %}
+                        <span class="fa fa-star"></span>
+                    {% endif %}
+                {% endfor %}
+                <span class="rating-number-detail">{{ book.rating }}</span>
 
+            </div>
+            <button class="btn-review-detail">Write a Review</button>
+        </div>
+    </div>
 </div>
-
-
-<script>
-    // Use Ajax to fetch book content and display it in the "book-content" div
-    var bookId = 1;  // Replace with the actual book ID you want to read
-    var bookContentElement = document.getElementById('book-content');
-
-    fetch('/book/' + bookId + '/')
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(data) {
-            // Render the book content in the "book-content" div
-            bookContentElement.innerHTML = `
-                <h1>${data.title}</h1>
-                <p>${data.description}</p>
-                <!-- Add more HTML to render book content here -->
-            `;
-        })
-        .catch(function(error) {
-            console.error('Error:', error);
-        });
-</script>
+{% endblock content %} {% endcomment %}

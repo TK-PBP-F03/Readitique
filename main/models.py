@@ -13,6 +13,8 @@ class Book(models.Model):
     rating = models.FloatField(default=0)
     image_link = models.URLField(max_length=300, default="https://img.freepik.com/premium-vector/open-blank-book-illustration-school-supply-back-school-open-book-icon-reading-writing_502505-530.jpg?w=2000")
     count_read = models.PositiveIntegerField(default=0)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
+

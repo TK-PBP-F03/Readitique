@@ -11,10 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from rprofile.models import UserProfile
-
-# Create your views here.
-
-
+from bom import views
 # Create your views here.
 
 def show_main(request):
@@ -86,9 +83,24 @@ def book_detail(request,book_id):
 
 @login_required
 def add_to_reading_list(request, book_id):
-    user_profile, created = UserProfile.objects.get_or_create(user=request.user)
+    user_profile = UserProfile.objects.get(user=request.user)
     book = Book.objects.get(id=book_id+1)
     user_profile.favorite_books.add(book)
     user_profile.save()
-    return redirect('bom:show_top_books')  # Ganti 'book_list' dengan URL yang sesuai
+    
+    return redirect('main:user_books', username=user_profile.user.username)  # Ganti 'book_list' dengan URL yang sesuai
+
+def user_books(request, username):
+    user_profile = UserProfile.objects.get(user__username=username)
+    favorite_books = user_profile.favorite_books.all()
+    top_books =views.rank_book()
+
+    context = {
+        'user_profile': user_profile,
+        'favorite_books': favorite_books,
+        'top_books': top_books,
+
+
+    }
+    return render(request, 'bom.html', context)
 

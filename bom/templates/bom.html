@@ -8,14 +8,18 @@
     <div id="nav-bar-raw">
         {% if user.is_authenticated %}
             <h2 class="hi-or-login">Hello, <a class="nav-anchor" href="{% url 'rprofile:profile' %}">{{ user.username }}</a>!</h2>
+            <a class="nav-anchor" href="{% url 'main:show-main' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2></a>
+
         {% else %}
-            <h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2>
-        {% endif %}
+            <a class="nav-anchor" href="{% url 'main:show-main' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2></a>        {% endif %}
 
         <div id="nav-options">
           <h2><a href="" class="nav-anchor">Reviews</a></h2>
-          <h2><a href="{% url 'bom:show_top_books' %}" class="nav-anchor">Book of the Month</a></h2>
-          <h2><a href="{% url 'rprofile:bookofchoice' %}" class="nav-anchor">Book of your Choice</a></h2>
+        {% if user.is_authenticated %}
+            <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'main:show_top_book' username=user.username %}" class="nav-anchor">Book of the Month</a></h2>
+        {% else %}
+            <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'bom:show_top_books' %}" class="nav-anchor">Book of the Month</a></h2>
+        {% endif %}
           <h2><a href="" class="nav-anchor">Books</a></h2>
           {% if user.is_authenticated %}
             <h2><a class="nav-anchor" href="{% url 'main:logout' %}">Logout</a></h2>
@@ -28,71 +32,71 @@
     </br>
 </br>
 </br>
-     {% comment %} <div class="row mb-3">
+    {% comment %} <div class="row mb-3">
         <div class="col-md-12 text-center">
             <a href="{% url 'bom:reset_counts' %}" class="btn btn-danger">Reset Jumlah Pembaca</a>
         </div>
     </div>   {% endcomment %}
 
-    <div class="container">
-        <div class="header">
+    <div class="container-bom">
+        <div class="header-bom">
             <h1 class="text-center" style="font-family: fantasy;">Book of the Month</h1> 
-            <div class="body" style="display:flex;">
+            <div class="body-bom" style="display:flex;">
                 
-                <div class="column">
-                    <div class="card-mid" style="background-image: url('{{top_books.0.image_link}}')"></div>
-                    <div class="card-mid-footer">
-                        <div class="author" >{{top_books.0.author}}</div>
-                        <div class="title" ><a href="{% url 'main:book_detail' book_id=top_books.0.index_key %}">{{top_books.0.title}}</a></div>
+                <div class="column-bom">
+                    <div class="card-mid-bom" style="background-image: url('{{top_books.0.image_link}}')"></div>
+                    <div class="card-mid-footer-bom">
+                        <div class="author-bom" >{{top_books.0.author}}</div>
+                        {% comment %} <div class="title-bom" ><a href="{% url 'main:book_detail' book_id=top_books.0.index_key %}">{{top_books.0.title}}</a></div> {% endcomment %}
                     </div>
                 </div>
                 
-                <div class="column">
-                    <div class="card">
-                        <div class="card-image" style="background-image: url('{{top_books.1.image_link}}')"></div>
-                        <div class="card-content">
-                            <div class="author"> {{top_books.1.author}}</div>
-                            <div class="title"><a href="{% url 'main:book_detail' book_id=top_books.1.index_key %}">{{top_books.1.title}}</a></div>
+                <div class="column-bom">
+                    <div class="card-bom">
+                        <div class="card-image-bom" style="background-image: url('{{top_books.1.image_link}}')"></div>
+                        <div class="card-content-bom">
+                            <div class="author-bom"> {{top_books.1.author}}</div>
+                            {% comment %} <div class="title-bom"><a href="{% url 'main:book_detail' book_id=top_books.1.index_key %}">{{top_books.1.title}}</a></div> {% endcomment %}
 
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-image" style="background-image: url('{{top_books.2.image_link}}')"></div>
-                        <div class="card-content">
-                            <div class="author"> {{top_books.2.author}}</div>
-                            <div class="title"> <a href="{% url 'main:book_detail' book_id=top_books.2.index_key %}">{{top_books.2.title}}</a></div>
+                    <div class="card-bom">
+                        <div class="card-image-bom" style="background-image: url('{{top_books.2.image_link}}')"></div>
+                        <div class="card-content-bom">
+                            <div class="author-bom"> {{top_books.2.author}}</div>
+                            {% comment %} <div class="title-bom"> <a href="{% url 'main:book_detail' book_id=top_books.2.index_key %}">{{top_books.2.title}}</a></div> {% endcomment %}
                         </div>
                     </div>         
                     
-                    <div class="card">
-                        <div class="card-image" style="background-image: url('{{top_books.3.image_link}}')"></div>
-                        <div class="card-content">
-                            <div class="author"> {{top_books.3.author}}</div>
-                            <div class="title"> <a href="{% url 'main:book_detail' book_id=top_books.3.index_key %}">{{top_books.3.title}}</a></div>
+                    <div class="card-bom">
+                        <div class="card-image-bom" style="background-image: url('{{top_books.3.image_link}}')"></div>
+                        <div class="card-content-bom">
+                            <div class="author-bom"> {{top_books.3.author}}</div>
+                            {% comment %} <div class="title-bom"> <a href="{% url 'main:book_detail' book_id=top_books.3.index_key %}">{{top_books.3.title}}</a></div> {% endcomment %}
                         </div>
                     </div>
                 </div>
-                <div class="column">
-                    <div class="card">
-                        <div class="card-image" style="background-image: url('{{top_books.4.image_link}}')"></div>
-                        <div class="card-content">
-                            <div class="author"> {{top_books.4.author}}</div>
-                            <div class="title"> {{top_books.4.title}}</div>
+                <div class="column-bom">
+                    <div class="card-bom">
+                        <div class="card-image-bom" style="background-image: url('{{top_books.4.image_link}}')"></div>
+                        <div class="card-content-bom">
+                            <div class="author-bom"> {{top_books.4.author}}</div>
+                            {% comment %} <div class="title-bom">  <a href="{% url 'main:book_detail' book_id=top_books.4.index_key %}">{{top_books.4.title}}</a></div> {% endcomment %}
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-image" style="background-image: url('{{top_books.5.image_link}}')"></div>
-                        <div class="card-content">
-                            <div class="author"> {{top_books.5.author}}</div>
-                            <div class="title"> {{top_books.5.title}}</div>
+                    <div class="card-bom">
+                        <div class="card-image-bom" style="background-image: url('{{top_books.5.image_link}}')"></div>
+                        <div class="card-content-bom">
+                            <div class="author-bom"> {{top_books.5.author}}</div>
+                            {% comment %} <div class="title-bom">  <a href="{% url 'main:book_detail' book_id=top_books.5.index_key %}">{{top_books.5.title}}</a></div> {% endcomment %}
                         </div>
                     </div>         
                     
-                    <div class="card">
-                        <div class="card-image" style="background-image: url('{{top_books.6.image_link}}')"></div>
-                        <div class="card-content">
-                            <div class="author"> {{top_books.6.author}}</div>
-                            <div class="title"> {{top_books.6.title}}</div>
+                    <div class="card-bom">
+                        <div class="card-image-bom" style="background-image: url('{{top_books.6.image_link}}')"></div>
+                        <div class="card-content-bom">
+                            <div class="author-bom"> {{top_books.6.author}}</div>
+                            {% comment %} <div class="title-bom">  <a href="{% url 'main:book_detail' book_id=top_books.6.index_key %}">{{top_books.6.title}}</a></div> {% endcomment %}
                         </div>
                     </div>
                 </div> 
@@ -100,36 +104,35 @@
         </div>
 
     </div>
-    <h2 class="text-center">Trending</h2> 
-    <div class="container1">
-        <div class="card1">
-            <p class="title1">
-            Rick Sanchez
-            </p>
-        </div>
-        <div class="card1">
-            <p class="title1">
-            Morty Smith
-            </p>
-        </div>
-        <div class="card1">
-            <p class="title1">
-            Summer Smith
-            </p>
-        </div>
+    {% if user.is_authenticated %}
+        <h2 class="text-center">Trending</h2> 
+        <div class="container1">
+            <div class="card1">
+                <p class="title1">
+                {{user_profile.user.username}}
+                </p>
+            </div>
+            <div class="card1">
+                <p class="title1">
+                {{favorite_books.0.title}}
+                </p>
+            </div>
+            <div class="card1">
+                <p class="title1">
+                </p>
+            </div>
 
-        <div class="card1">
-            <p class="title1">
-            Beth Smith
-            </p>
+            <div class="card1">
+                <p class="title1">
+                </p>
+            </div>
+            <div class="card1">
+                <p class="title1">
+                </p>
+            </div>
+            
         </div>
-        <div class="card1">
-            <p class="title1">
-            Rick Sanchez
-            </p>
-        </div>
-        
-    </div>
+    {% endif %}
 
 
     {% comment %} <div class="shadow-sm p-4 mb-4 bg-white">

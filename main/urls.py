@@ -12,6 +12,6 @@ urlpatterns = [
   path('register/', views.register, name="register"),
   path('book/<int:book_id>/', views.book_detail, name='book_detail'),
   path('add_to_reading_list/<int:book_id>/', views.add_to_reading_list, name='add_to_reading_list'),
-
-
+  path('', views.book_detail, name='user_books'),
+  path('bom/<str:username>/', views.user_books, name='show_top_book'),
 ]
