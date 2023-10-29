@@ -59,9 +59,10 @@ def user_books(request, username):
 
 def get_top_quotes(request):
     quotes = Quotes.objects.all()
-    quotes_list = [quote.quotes for quote in quotes]  # Mengambil teks quotes
+    quotes_list = [{'quotes': quote.quotes, 'user': quote.user.username} for quote in quotes]  # Mengambil teks quotes dan username pengguna
+    top_quote = quotes_list[-1] if quotes_list else None  # Mendapatkan kutipan teratas atau None jika tidak ada kutipan
+    return JsonResponse({'quotes': top_quote})
 
-    return JsonResponse({'quotes': [quotes_list[-1]]})
 
 
 @login_required

@@ -66,7 +66,7 @@
                 <tr>
                     <td><img src="{{ book.image_link }}" alt="{{ book.title }} Cover" class="book-cover"></td>
                     <td>
-                        <a href="{% url 'main:book_detail' book_id=book.index_key %}" style="color: inherit; text-decoration: none;">{{ book.title }}</a>
+                        <a href="{% url 'main:book_detail' book_id=book.index_key %}" style="color: inherit; text-decoration: none; font-family: 'Space Grotesk', cursive;">{{ book.title }}</a>
                         <select class="select-readbooks" onchange="updateSelect(this)">
                             <option value="0" selected disabled>Readbooks:</option>
                             <option value="1">Want to read</option>
@@ -97,7 +97,8 @@
             <div class="button-container" id="auth-buttons">
                 <div class="hero-section">
                     <h2>Welcome to Readitique!</h2>
-                    <p>Explore, review, and share your thoughts about books.</p>
+                    <p style="margin-bottom: 25px;">"Creating a good book is very challenging, just like reading this text."</p>
+                    <p style="font-family: 'Merriweather', cursive;">- Melvara 👈(ﾟヮﾟ👈)</p>
                     <a href="{% url "main:login" %}" style="text-decoration: none;"><button class="btn" id="login-btn">Login</button></a>
                     <a href="{% url "main:register" %}" style="text-decoration: none;"><button class="btn" id="register-btn">Register</button></a>
                 </div>

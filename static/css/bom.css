@@ -31,7 +31,7 @@
   border-radius: 5px;
   overflow: hidden;
   width: 400px;
-  height: 550px;
+  height: 500px;
   background-size: cover; 
   box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
   background-repeat: no-repeat;
@@ -287,4 +287,15 @@ textarea {
       width: 95%;
       margin: 0 auto;
   }
+}
+@font-face {
+  font-family: 'Rocher';
+  src: url(https://assets.codepen.io/9632/RocherColorGX.woff2);
+}
+@font-palette-values --Grays {
+  font-family: Rocher;
+  base-palette: 9;
+}
+.grays {
+  font-palette: --Grays;
 }
