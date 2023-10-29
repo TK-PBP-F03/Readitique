@@ -41,17 +41,21 @@
     </div>
 
     <div id="main-title">
-        <img id="main-bg" src="https://img.freepik.com/free-photo/abundant-collection-antique-books-wooden-shelves-generated-by-ai_188544-29660.jpg">
-        <div id="quote-container">
-          <div id="readitique">"Readitique akan terus berkembang tapi tidak akan pernah sempurna. karena kesempurnaan hanya milik Tuhan"</div>
-          <div id="kamaru">-Kamaru 2023</div>
-        </div>
-      </div>
+    <img id="main-bg" style="object-fit: cover;" src="https://img.freepik.com/free-photo/abundant-collection-antique-books-wooden-shelves-generated-by-ai_188544-29660.jpg">
+    <div id="quote-container">
+        <div id="readitique">"Readitique akan terus berkembang tapi tidak akan pernah sempurna. karena kesempurnaan hanya milik Tuhan"</div>
+        <div id="kamaru">- PBP KELOMPOK ASDOSAN KA STENLY</div>
+    </div>
+    </div>
       
 
     <div id="search-input">
         <h1>Book Suggestions:</h1>
         {%if user.is_authenticated is True%}
+        <div>
+            <label for="search-book">Search by title:</label>
+            <input id="booksearch" type="text" name="search-book" style="margin-left: 8px"/>
+        </div>
         <h4>Suggest a book <a data-bs-toggle="modal" data-bs-target="#bookModal" href="">here</a>!</h4>
         {% endif %}
     </div>
@@ -107,6 +111,64 @@
             return fetch("{% url 'addbuku:get_newbook_json' %}").then((res) => res.json())
         }
 
+        searchBook = document.getElementById("booksearch");
+        searchBook.addEventListener("input", (e) => {
+            e.preventDefault();
+            const scrollPos = window.scrollY;
+
+            const container = document.querySelector(".row");
+            container.innerHTML = "";
+            let htmlString = "";
+            let value = e.target.value;
+            const base = "{% url 'addbuku:get_filtered' %}"
+
+            fetch(`${base}?search_text=${value}`)
+            .then(response => response.json())
+            .then(data => {
+                for (item of data) {
+                    let description = item.fields.description;
+            if (description.length > 100) {
+                description = description.substring(0, 95) + "...";
+            }
+            htmlString += `\n<div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="${ item.fields.image_link }" class="img-fluid" alt="Gambar" style="max-width: 100px; max-height: 150px;">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <div class="heading">
+                                    <h5 class="card-title" title="${item.fields.title}" style="font-size: 16px; height: 80px; overflow-y: auto;">${ item.fields.title }</h5>
+                                    <p class="card-text" style="font-size: 12px; height:40px;">Author: ${ item.fields.author }</p>
+                                </div>
+                                <p class="card-text description" style="font-size: 12px; height: 60px;"> <span data-description="${description}">${description}</span></p>
+                                {%if user.is_authenticated is True and user.is_superuser is False%}
+                                <button type="button" class="btn btn-success vote" method="POST" onclick="incrementVote(${item.pk})">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"></path>
+                                    </svg>
+                                    ${item.fields.votes} Votes
+                                </button>
+                                {%endif%}
+                                {%if user.is_superuser %}
+                                    <button type="button" class="btn btn-success approve" method="GET" onclick="approveBook(${item.pk})">Approve</button>
+                                {%endif%}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>` ;
+                }   
+            container.innerHTML = htmlString;
+            })
+            .then(() => {
+                setTimeout(() => {
+                window.scrollTo(0, scrollPos);
+                }, 10);
+            });
+        });
+
         async function refreshNewBooks() {
         document.getElementsByClassName("row")[0].innerHTML = ""
         const new_books = await getNewBooks()
@@ -126,7 +188,7 @@
                             <div class="card-body">
                                 <div class="heading">
                                     <h5 class="card-title" title="${item.fields.title}" style="font-size: 16px; height: 80px; overflow-y: auto;">${ item.fields.title }</h5>
-                                    <p class="card-text" style="font-size: 12px;">Author: ${ item.fields.author }</p>
+                                    <p class="card-text" style="font-size: 12px; height:40px;">Author: ${ item.fields.author }</p>
                                 </div>
                                 <p class="card-text description" style="font-size: 12px; height: 60px;"> <span data-description="${description}">${description}</span></p>
                                 {%if user.is_authenticated is True and user.is_superuser is False%}
