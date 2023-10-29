@@ -47,6 +47,8 @@
                 <img src="{{ book.image_link }}" class="card-detail-img" alt="{{ book.title }}">
                 {% if user.is_authenticated %}
                 <button class="btn-read-detail"><a href="{% url 'main:add_to_reading_list' book_id=book.index_key %}" style="color: inherit; text-decoration: none;">Want to Read</a></button>
+                {% else %}
+                <button class="btn-read-detail"><a href="{% url 'main:login' %}" style="color: inherit; text-decoration: none;">Want to Read</a></button>
                 {% endif %}
                 <div style="font-size: 12px;">{{ readers_amount }} users added to reading list </div>
             </div>
