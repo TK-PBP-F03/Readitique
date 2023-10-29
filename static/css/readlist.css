@@ -1,3 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner:wght@500&family=Playfair+Display:wght@600&family=Roboto:wght@100&family=Space+Grotesk:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner:wght@500&family=Playfair+Display:wght@600&family=Roboto:wght@100&family=Rock+3D&family=Space+Grotesk:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner:wght@500&family=Playfair+Display:wght@600&family=Roboto:wght@100&family=Rock+3D&family=Shizuru&family=Space+Grotesk:wght@500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner:wght@500&family=Merriweather:wght@700&family=Playfair+Display:wght@600&family=Roboto:wght@100&family=Rock+3D&family=Shizuru&family=Space+Grotesk:wght@500;700&display=swap');
+
 .body-readlist {
     /* background-image: url('https://cdn.pixabay.com/photo/2021/07/09/16/30/library-6399503_1280.jpg');
     background-repeat: no-repeat; */
@@ -146,6 +151,11 @@ td > a, td > button {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
+.melvara {
+    font-size: 36px;
+    font-family: 'Merriweather', cursive;
+}
+
 .hero-section {
     text-align: center;
     padding: 150px 0;
@@ -157,6 +167,7 @@ td > a, td > button {
     color: #e5f2c9;
     margin-bottom: 20px;
     font-weight: 1000;
+    font-family: 'Merriweather', cursive;
 }
 
 .hero-section p {
@@ -164,6 +175,7 @@ td > a, td > button {
     margin-bottom: 30px;
     color: #e5f2c9;
     font-weight: 1000;
+    font-family: 'Rock 3D', cursive;
 }
 
 footer {

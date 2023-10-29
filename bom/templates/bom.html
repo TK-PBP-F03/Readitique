@@ -197,12 +197,13 @@
                     <div class="author-trend"> {{favorite_books.3.author}}</div>
                 </div>
             </div>
+            
             {% endif %}
             
             
         </div>
     {% endif %}
-    
+
     <script>
         function updateTopQuotes() {
         // Kirim permintaan AJAX ke server untuk mendapatkan quotes teratas
@@ -235,7 +236,4 @@
         }
         document.getElementById("button_add").onclick = addQuotes
     </script>
-
-
-
 {% endblock content %}

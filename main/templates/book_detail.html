@@ -58,9 +58,9 @@
             </div>
             <div class="card-detail-body">
                 <h5 class="card-detail-title">{{ book.title }}</h5>
-                <p class="card-detail-text">Penulis: {{ book.author }}</p>
-                <p class="card-detail-text">Deskripsi: {{ book.description }}</p>
-                <p class="card-detail-text">Genre: {{ book.genre }}</p>
+                <span class="title">Penulis: <p class="card-detail-text">{{ book.author }}</p></span>
+                <span class="title">Deskripsi: <p class="card-detail-text">{{ book.description }}</p></span>
+                <span class="title">Genre: <p class="card-detail-text">{{ book.genre }}</p></span>
             </div>
         </div>
         <div class="card-detail-footer">
@@ -83,4 +83,7 @@
         </div>
     </div>
 </div>
+<footer>
+    <p>© 2023 Readitique. Built with ❤️</p>
+</footer> 
 {% endblock content %}
