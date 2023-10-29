@@ -6,6 +6,7 @@
 
 {% block content %}
 
+<<<<<<< HEAD
 <div id="login-bg-container">
   <img id="login-bg" src="https://cdn.pixabay.com/photo/2021/07/09/16/30/library-6399503_1280.jpg">
 </div>
@@ -51,6 +52,28 @@
 
     <div class="book-list">
         {% if books is not None %}
+=======
+    <div id="nav-bar-readlist">
+        {% if user.is_authenticated %}
+            <h2 class="hi-or-login">Hello, <a class="nav-anchor" href="{% url 'rprofile:profile' %}">{{ user.username }}</a>!</h2>
+        {% else %}
+            <h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2>
+        {% endif %}
+
+        <div id="nav-options">
+          <h2><a href="" class="nav-anchor">Reviews</a></h2>
+          <h2><a href="" class="nav-anchor">Book of the Month</a></h2>
+          <h2><a href="{% url 'rprofile:bookofchoice' %}" class="nav-anchor">Book of your Choice</a></h2>
+          <h2><a href="" class="nav-anchor">Books</a></h2>
+          {% if user.is_authenticated %}
+            <h2><a class="nav-anchor" href="{% url 'main:logout' %}">Logout</a></h2>
+          {% else %}
+            <h2 class="hi-or-login"><a class="nav-anchor" href="{% url 'main:login' %}">Login</a></h2>
+          {% endif %}
+        </div>
+    </div>
+    <div class="book-list">
+>>>>>>> 93d17ac0b68397e7c1640379ec5bef22acc339a9
       <table>
           <thead>
               <tr>
@@ -62,6 +85,7 @@
           </thead>
           <tbody>
               <!-- Contoh entri buku -->
+<<<<<<< HEAD
                 {% for book in books %}
                 <tr>
                     <td><img src="{{ book.image_link }}" alt="{{ book.title }} Cover" class="book-cover"></td>
@@ -128,6 +152,38 @@
 
     const delete = document.getelementById("readlist-delete")
     </script>
+=======
+              {% for book in books %}
+              <tr>
+                  <td><img src="{{ book.image_link }}" alt="{{ book.title }} Cover" class="book-cover"></td>
+                  <td>
+                    <a href="{% url 'main:book_detail' book_id=book.index_key %}">{{ book.title }}</a>
+                    <button class="btn-favorite">Favorite</button>
+                    <button class="btn-readbooks">Read</button>
+                  </td>
+                  <td>{{ book.author }}</td>
+                  <td>
+                    {{ book.rating }}
+                    <!-- Anda mungkin ingin menambahkan logika untuk menampilkan bintang sesuai dengan rating buku -->
+                    {% for i in "12345" %}
+                      {% if forloop.counter <= book.rating %}
+                          ★ <!-- Bintang penuh -->
+                      {% else %}
+                          ☆ <!-- Bintang kosong -->
+                      {% endif %}
+                    {% endfor %}
+                  </td>
+              </tr>
+              {% empty %}
+              <tr>
+                  <td colspan="4" class="no-books">Tidak ada buku yang tersedia saat ini.</td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+      <script>
+      </script>
+>>>>>>> 93d17ac0b68397e7c1640379ec5bef22acc339a9
 
 
 {% endblock content %}

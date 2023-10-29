@@ -80,6 +80,7 @@ def logout_user(request):
 
 def book_detail(request,book_id):
     book = get_object_or_404(Book,id=book_id + 1)
+<<<<<<< HEAD
     reader = len(book.userprofile_set.all())
     book.count_read = reader
     context = {
@@ -96,3 +97,9 @@ def add_to_reading_list(request, book_id):
     user_profile.save()
     return redirect('main:book_detail',book_id ) 
 
+=======
+    context = {'book':book}
+
+    return render(request, 'book_detail.html', context)
+
+>>>>>>> 93d17ac0b68397e7c1640379ec5bef22acc339a9

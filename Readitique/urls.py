@@ -20,8 +20,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('profile/',include('rprofile.urls')),
+<<<<<<< HEAD
     path('reviews/', include('review.urls')),
     path('bom/', include('bom.urls')),
     path('readlist/', include('readlist.urls')),
     path('add-buku/', include('addbuku.urls')),
+=======
+    path('readlist/',include('readlist.urls')),
+>>>>>>> 93d17ac0b68397e7c1640379ec5bef22acc339a9
 ]

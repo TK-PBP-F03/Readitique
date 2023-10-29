@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner:wght@500&family=Playfair+Display:wght@600&family=Roboto:wght@100&family=Space+Grotesk:wght@500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner:wght@500&family=Playfair+Display:wght@600&family=Roboto:wght@100&family=Rock+3D&family=Space+Grotesk:wght@500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner:wght@500&family=Playfair+Display:wght@600&family=Roboto:wght@100&family=Rock+3D&family=Shizuru&family=Space+Grotesk:wght@500;700&display=swap');
@@ -24,21 +25,54 @@
 
 #nav-bar-raw h2 {
     margin: auto;
+=======
+body, html {
+    background-image: white;
+}
+
+#nav-bar-readlist {
+    display: flex;
+    position: fixed;
+    padding: 10px;
+    top: 0;
+    width: 100vw;
+    height: 60px;
+    z-index: 2;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #7f534b;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#nav-bar-readlist h2 {
+    margin: 0;
+    font-size: 25px;
+    padding-left: 15px;
+    margin-top: -4px;
+>>>>>>> 93d17ac0b68397e7c1640379ec5bef22acc339a9
 }
 
 .nav-anchor {
     text-decoration: none;
+<<<<<<< HEAD
     color: #e5f2c9;
+=======
+    color: white;
+>>>>>>> 93d17ac0b68397e7c1640379ec5bef22acc339a9
     transition: color 0.3s;
 }
 
 .nav-anchor:hover {
+<<<<<<< HEAD
     color: #a8e6cf;
 }
 
 #nav-options {
     display: flex;
     gap: 15px;
+=======
+    color: #e5f2c9;
+>>>>>>> 93d17ac0b68397e7c1640379ec5bef22acc339a9
 }
 
 .book-list table {
@@ -107,6 +141,7 @@ td > a, td > button {
     gap: 10px;
 }
 
+<<<<<<< HEAD
 
 .select-readbooks {
     font-family: 'Arial', sans-serif; 
@@ -303,4 +338,38 @@ footer p {
     #nav-bar-raw.nav-active #nav-options {
         display: flex;
     }
+=======
+.btn-readbooks {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px 15px;
+    background-color: #2c3e50;
+    color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+.btn-readbooks:hover {
+    background-color: #5F9EA0;
+    transform: scale(1.05);
+}
+
+.btn-favorite {
+    padding: 5px 15px;
+    background-color: #7f534b;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s; 
+    font-weight: bold;
+}
+
+.btn-favorite:hover {
+    background-color: #DEB887;
+    transform: scale(1.05);
+>>>>>>> 93d17ac0b68397e7c1640379ec5bef22acc339a9
 }

@@ -1,17 +1,28 @@
+<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto:wght@100&display=swap');
 
+=======
+>>>>>>> 93d17ac0b68397e7c1640379ec5bef22acc339a9
 body {
     /* background: rgb(127,83,75);
     background: linear-gradient(0deg, rgba(127,83,75,1) 0%, rgba(251,250,250,1) 80%, rgba(255,255,255,1) 100%); */
     /* background-image: url("https://th.bing.com/th/id/OIP.UgOkqCJBCTDNxNGw9erFugAAAA?pid=ImgDet&w=400&h=400&rs=1"); */
     /* background-image: url("https://cur.glitter-graphics.net/pub/3640/3640494otis6654w7.gif"); */
     /* background-image: url("https://th.bing.com/th/id/R.b907ab1ea56a230273171a6b61bf7068?rik=JplnRLeP5xoteQ&riu=http%3a%2f%2fmedia-cache-ec0.pinimg.com%2foriginals%2f55%2f51%2fb5%2f5551b5a9072e7ea8daaa9c95c827e250.jpg&ehk=h8tuu6f8LNvwn%2bhaWIkfJ6LXhBv6oHoTQ0utdfl8GtA%3d&risl=&pid=ImgRaw&r=0"); */
+<<<<<<< HEAD
     /* background-image: url("https://i.pinimg.com/originals/75/5c/b2/755cb20d2a2bf55cac88fa0e5a08c78d.jpg"); */
+=======
+    background-image: url("https://i.pinimg.com/originals/75/5c/b2/755cb20d2a2bf55cac88fa0e5a08c78d.jpg");
+>>>>>>> 93d17ac0b68397e7c1640379ec5bef22acc339a9
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #ffffff;
 }
 
+<<<<<<< HEAD
 .container-detail {
+=======
+.container {
+>>>>>>> 93d17ac0b68397e7c1640379ec5bef22acc339a9
     max-width: 1000px;
     margin: 70px auto;
     padding: 20px;
@@ -29,9 +40,14 @@ h1 {
     padding-bottom: 10px;
 }
 
+<<<<<<< HEAD
 .card-detail {
     display: flex;
     flex-direction: column;
+=======
+.card {
+    display: flex;
+>>>>>>> 93d17ac0b68397e7c1640379ec5bef22acc339a9
     border: none;
     border-radius: 8px;
     overflow: hidden;
@@ -39,39 +55,64 @@ h1 {
     transition: box-shadow 0.3s;
 }
 
+<<<<<<< HEAD
 .card-detail:hover {
     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.15);
 }
 
 .card-detail-content {
+=======
+.card:hover {
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.15);
+}
+
+.card-content {
+>>>>>>> 93d17ac0b68397e7c1640379ec5bef22acc339a9
     display: flex;
     align-items: flex-start;
 }
 
+<<<<<<< HEAD
 .card-detail-img-top {
+=======
+.card-img-top {
+>>>>>>> 93d17ac0b68397e7c1640379ec5bef22acc339a9
     max-width: 200px;
     height: auto;
     flex-shrink: 0;
 }
 
+<<<<<<< HEAD
 .card-detail-img {
+=======
+.card-img {
+>>>>>>> 93d17ac0b68397e7c1640379ec5bef22acc339a9
     width: 200px;
     height: 300px;
     object-fit: cover;
     border-radius: 8px 0 0 8px;
 }
 
+<<<<<<< HEAD
 .card-detail-body {
+=======
+.card-body {
+>>>>>>> 93d17ac0b68397e7c1640379ec5bef22acc339a9
     padding: 20px;
     flex-grow: 1;
 }
 
+<<<<<<< HEAD
 .card-detail-title {
+=======
+.card-title {
+>>>>>>> 93d17ac0b68397e7c1640379ec5bef22acc339a9
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 15px;
 }
 
+<<<<<<< HEAD
 .card-detail-text {
     font-size: 16px;
     margin-bottom: 10px;
@@ -88,6 +129,15 @@ h1 {
 
 
 .card-detail-footer {
+=======
+.card-text {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.card-footer {
+>>>>>>> 93d17ac0b68397e7c1640379ec5bef22acc339a9
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -96,7 +146,11 @@ h1 {
     background: transparent;
 }
 
+<<<<<<< HEAD
 .btn-review-detail {
+=======
+.btn-review {
+>>>>>>> 93d17ac0b68397e7c1640379ec5bef22acc339a9
     padding: 10px 20px;
     background-color: #7f534b;
     color: #FFFFFF;
@@ -107,18 +161,30 @@ h1 {
     font-weight: bold;
 }
 
+<<<<<<< HEAD
 .btn-review-detail:hover {
+=======
+.btn-review:hover {
+>>>>>>> 93d17ac0b68397e7c1640379ec5bef22acc339a9
     background-color: #DEB887;
     transform: scale(1.05);
 }
 
+<<<<<<< HEAD
 .img-container-detail {
+=======
+.img-container {
+>>>>>>> 93d17ac0b68397e7c1640379ec5bef22acc339a9
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+<<<<<<< HEAD
 .btn-read-detail {
+=======
+.btn-read {
+>>>>>>> 93d17ac0b68397e7c1640379ec5bef22acc339a9
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 10px 20px;
@@ -131,6 +197,7 @@ h1 {
     font-weight: bold;
 }
 
+<<<<<<< HEAD
 .btn-read-detail:hover {
     background-color: #5F9EA0;
     transform: scale(1.05);
@@ -157,3 +224,9 @@ h1 {
 }
 
 /*Button Favorite*/
+=======
+.btn-read:hover {
+    background-color: #5F9EA0;
+    transform: scale(1.05);
+}
+>>>>>>> 93d17ac0b68397e7c1640379ec5bef22acc339a9
