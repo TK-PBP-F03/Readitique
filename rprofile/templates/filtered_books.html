@@ -1,0 +1,6 @@
+<h1>Filtered Books</h1>
+<ul>
+    {% for book in filtered_books %}
+        <li>{{ book.title }} by {{ book.author }}</li>
+    {% endfor %}
+</ul>

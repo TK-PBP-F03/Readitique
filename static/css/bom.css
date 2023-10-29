@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Bad+Script&family=Homemade+Apple&family=Nosifer&family=Noto+Serif+Bengali:wght@300&family=Roboto+Condensed:wght@600&display=swap');
 .container-bom {
   display: flex;
   justify-content: space-around;
@@ -39,6 +40,12 @@
   height: 90px;
   width: 450px;
 }
+
+.text-center {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 55px;
+}
+
 .card-image-bom {
   background-color: rgb(236, 236, 236);
   max-width: 115px;
@@ -145,4 +152,139 @@
 
 .card-trend-image-bom:hover {
   transform: scale(0.98);
+}
+
+.quotes-container {
+  padding: 10px auto;
+  border-radius: 5px;
+  min-height: 200px;
+  background-color: #f9f9f9;
+  font-size: 30px;
+  font-family: 'Noto Serif Bengali', cursive;
+  font-weight: 100;
+  margin: 10px auto;
+  width: 60%;
+
+}
+.quote-item {
+    margin: 1rem auto;
+    padding: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    justify-content: center;
+    text-align: center; /* Memulai teks di tengah horizontal */
+}
+
+.modal-content {
+  border-radius: 8px;
+}
+
+.modal-header {
+  border-bottom: none;
+  padding: 1.5em 2em;
+  background-color: #343a40; /* primary blue */
+  color: white;
+}
+
+.modal-title {
+  font-weight: 600;
+  color: #e5f2c9;
+}
+
+.modal-body {
+  padding: 2em;
+}
+
+.btn-close {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+label {
+  font-size: 1.1em;
+  font-weight: 500;
+  margin-bottom: 0.5em;
+  display: block;
+}
+
+textarea.form-control {
+  padding: 1em;
+  font-size: 1em;
+  border: 1px solid #ced4da; /* light grayish-blue */
+  border-radius: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+textarea.form-control:focus {
+  border-color: #007bff; /* primary blue */
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn-primary {
+  background-color: #007bff; /* primary blue */
+  border-color: #007bff; /* primary blue */
+  color: white;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.btn-secondary {
+  background-color: #6c757d; /* secondary gray */
+  border-color: #6c757d; /* secondary gray */
+  color: white;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+textarea {
+    text-align: center; /* Mengatur teks agar terletak di tengah secara horizontal */
+    margin: 0 auto; /* Mengatur margin horizontal untuk memposisikan textarea di tengah */
+    display: block; /* Memastikan textarea ditampilkan sebagai blok (vertical centered) */
+    height: 200px; /* Sesuaikan dengan tinggi textarea yang Anda inginkan */
+    width: 100%;
+}
+
+@media only screen and (max-width: 1024px) and (min-width: 768px) {
+  .container-bom, .container-trend {
+      max-width: 95%;
+  }
+
+  .card-bom, .card-mid-bom {
+      width: 100%;
+  }
+  .card-trend {
+      width: 80%;
+      margin: 1rem auto;
+  }
+  .quotes-container {
+      width: 90%;
+  }
+  textarea {
+      width: 90%;
+      margin: 0 auto;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .container-bom, .container-trend {
+      flex-direction: column;
+      max-width: 100%;
+  }
+
+  .card-bom, .card-mid-bom {
+      width: 90%;
+      margin: 1rem auto;
+  }
+
+  .card-trend {
+      width: 90%;
+      margin: 1rem auto;
+  }
+
+  .quotes-container {
+      width: 95%;
+  }
+  textarea {
+      width: 95%;
+      margin: 0 auto;
+  }
 }

@@ -80,7 +80,11 @@ def logout_user(request):
 
 def book_detail(request,book_id):
     book = get_object_or_404(Book,id=book_id + 1)
-    context = {'book':book}
+    reader = len(book.userprofile_set.all())
+    book.count_read = reader
+    context = {
+        'book':book,
+        'readers_amount': reader}
 
     return render(request, 'book_detail.html', context)
 

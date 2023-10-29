@@ -16,6 +16,7 @@ from django.contrib.auth.models import User
 from rprofile.forms import BookForm
 from rprofile.models import UserProfile
 from .forms import UpdatePhoneNumberForm
+from .forms import BookSearchForm
 
 
 
@@ -52,6 +53,10 @@ def bookofchoice(request):
     
 
     return render(request, 'bookofyourchoice.html', {'book': random_book})
+
+def not_login(request):
+    return render(request, 'not_login.html')
+
 
 @login_required
 def update_email(request):
@@ -132,4 +137,31 @@ def update_phone_number(request):
             return JsonResponse({'error': 'Form data is invalid'})
     else:
         return JsonResponse({'error': 'Invalid request method'})
+    
 
+
+def filter_books(request):
+    if request.method == "POST":
+        form = BookSearchForm(request.POST)
+
+        if form.is_valid():
+            title = form.cleaned_data.get('title')
+            author = form.cleaned_data.get('author')
+            genre = form.cleaned_data.get('genre')
+
+            # Get the user's profile
+            user_profile = UserProfile.objects.get(user=request.user)
+
+            # Filter the user's favorite books based on criteria
+            filtered_books = user_profile.favorite_books.filter(
+                title__icontains=title,
+                author__icontains=author,
+                genre__icontains=genre
+            )
+
+            return render(request, 'filtered_books.html', {'filtered_books': filtered_books})
+
+    else:
+        form = BookSearchForm()
+
+    return render(request, 'filter_books.html', {'form': form})

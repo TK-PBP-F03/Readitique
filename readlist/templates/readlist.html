@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+{% endblock meta %}
+
+{% block content %}
+
+<div id="login-bg-container">
+  <img id="login-bg" src="https://cdn.pixabay.com/photo/2021/07/09/16/30/library-6399503_1280.jpg">
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<body class="body-readlist">
+    <div id="nav-bar-raw">
+        <div class="burger">
+            <div>-</div>
+            <div>-</div>
+            <div>-</div>
+        </div>
+        {% if user.is_authenticated %}
+            <h2 class="hi-or-login" style="color: #a8e6cf">Hello, <a class="nav-anchor" href="{% url 'rprofile:profile' %}">{{ user.username }}</a>!</h2>
+            <a class="nav-anchor" href="{% url 'main:show-main' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2></a>
+
+        {% else %}
+        <a class="nav-anchor" href="{% url 'rprofile:not_login' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Profile</h2></a>      
+            <a class="nav-anchor" href="{% url 'main:show-main' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2></a>
+        {% endif %}
+        <div id="nav-options">
+            <h2><a href="{% url 'review:reviews' %}" class="nav-anchor">Reviews</a></h2>
+            {% if user.is_authenticated %}
+                <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'bom:show_user_books' username=user.username %}" class="nav-anchor">Book of the Month</a></h2>
+            {% else %}
+                <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'bom:show_top_books' %}" class="nav-anchor">Book of the Month</a></h2>
+            {% endif %}
+
+            {% if user.is_authenticated %}
+                <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'readlist:book_list' username=user.username %}" class="nav-anchor">Books</a></h2>
+            {% else %}
+                <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'readlist:book_kosong' %}" class="nav-anchor">Books</a></h2>
+            {% endif %}
+
+
+            {% if user.is_authenticated %}
+            <h2><a class="nav-anchor" href="{% url 'main:logout' %}">Logout</a></h2>
+            {% else %}
+            <h2 class="hi-or-login"><a class="nav-anchor" href="{% url 'main:login' %}">Login</a></h2>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="book-list">
+        {% if books is not None %}
+      <table>
+          <thead>
+              <tr>
+                  <th>Cover</th>
+                  <th>Title</th>
+                  <th>Author</th>
+                  <th>Rating</th>
+              </tr>
+          </thead>
+          <tbody>
+              <!-- Contoh entri buku -->
+                {% for book in books %}
+                <tr>
+                    <td><img src="{{ book.image_link }}" alt="{{ book.title }} Cover" class="book-cover"></td>
+                    <td>
+                        <a href="{% url 'main:book_detail' book_id=book.index_key %}" style="color: inherit; text-decoration: none;">{{ book.title }}</a>
+                        <select class="select-readbooks" onchange="updateSelect(this)">
+                            <option value="0" selected disabled>Readbooks:</option>
+                            <option value="1">Want to read</option>
+                            <option value="2">Currently Reading</option>
+                            <option value="3">Read</option>
+                        </select>
+                        <a href="{% url 'readlist:book_delete' book.pk %}"><button class="delete-button" id="readlist-delete"><i class="fas fa-trash-alt"></i></button></a>
+                    </td>
+                    <td>{{ book.author }}</td>
+                    <td>
+                        {{ book.rating }}
+                        <!-- Anda mungkin ingin menambahkan logika untuk menampilkan bintang sesuai dengan rating buku -->
+                        {% for i in "12345" %}
+                        {% if forloop.counter <= book.rating %}
+                            ★ <!-- Bintang penuh -->
+                        {% else %}
+                            ☆ <!-- Bintang kosong -->
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif%}
+        {% if books is None%}
+        <tr>
+            <div class="button-container" id="auth-buttons">
+                <div class="hero-section">
+                    <h2>Welcome to Readitique!</h2>
+                    <p>Explore, review, and share your thoughts about books.</p>
+                    <a href="{% url "main:login" %}" style="text-decoration: none;"><button class="btn" id="login-btn">Login</button></a>
+                    <a href="{% url "main:register" %}" style="text-decoration: none;"><button class="btn" id="register-btn">Register</button></a>
+                </div>
+            </div>
+        </tr>
+        <footer>
+            <p>© 2023 Readitique. Built with❤️</p>
+        </footer>        
+        {% endif%}
+</body>
+<script>
+    function updateSelect(element) {
+        const options = element.options;
+        
+        options[1].text = "Want to read";
+        options[2].text = "Currently Reading";
+        options[3].text = "Read";
+        
+        if (options[1].selected) {
+            options[1].text = "✓ Want to read";
+        } else if (options[2].selected) {
+            options[2].text = "✓ Currently Reading";
+        } else if (options[3].selected) {
+            options[3].text = "✓ Read";
+        }
+    }
+
+    const delete = document.getelementById("readlist-delete")
+    </script>
+
+
+{% endblock content %}

@@ -25,30 +25,42 @@ background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 1
 </style>
 <body>
     <div id="nav-bar-raw">
+        <div class="burger">
+            <div>-</div>
+            <div>-</div>
+            <div>-</div>
+        </div>
         {% if user.is_authenticated %}
-            <h2 class="hi-or-login">Hello, <a class="nav-anchor" href="{% url 'rprofile:profile' %}">{{ user.username }}</a>!</h2>
+            <h2 class="hi-or-login" style="color: #a8e6cf">Hello, <a class="nav-anchor" href="{% url 'rprofile:profile' %}">{{ user.username }}</a>!</h2>
             <a class="nav-anchor" href="{% url 'main:show-main' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2></a>
 
         {% else %}
-            <a class="nav-anchor" href="{% url 'main:show-main' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2></a>        {% endif %}
-
-        <div id="nav-options">
-          <h2><a href="" class="nav-anchor">Reviews</a></h2>
-        {% if user.is_authenticated %}
-            <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'bom:show_user_books' username=user.username %}" class="nav-anchor">Book of the Month</a></h2>
-        {% else %}
-            <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'bom:show_top_books' %}" class="nav-anchor">Book of the Month</a></h2>
+          <a class="nav-anchor" href="{% url 'rprofile:not_login' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Profile</h2></a>      
+          <a class="nav-anchor" href="{% url 'main:show-main' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2></a>
         {% endif %}
-          {% comment %} <h2><a href="{% url 'bom:show_top_books' %}" class="nav-anchor">Book of the Month</a></h2> {% endcomment %}
-          <h2><a href="" class="nav-anchor">Books</a></h2>
-          {% if user.is_authenticated %}
-            <h2><a class="nav-anchor" href="{% url 'main:logout' %}">Logout</a></h2>
-          {% else %}
-            <h2 class="hi-or-login"><a class="nav-anchor" href="{% url 'main:login' %}">Login</a></h2>
-          {% endif %}
-        </div>
+        <div id="nav-options">
+            <h2><a href="{% url 'review:reviews' %}" class="nav-anchor">Reviews</a></h2>
+            {% if user.is_authenticated %}
+                <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'bom:show_user_books' username=user.username %}" class="nav-anchor">Book of the Month</a></h2>
+            {% else %}
+                <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'bom:show_top_books' %}" class="nav-anchor">Book of the Month</a></h2>
+            {% endif %}
 
+            {% if user.is_authenticated %}
+                <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'readlist:book_list' username=user.username %}" class="nav-anchor">Books</a></h2>
+            {% else %}
+                <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'readlist:book_kosong' %}" class="nav-anchor">Books</a></h2>
+            {% endif %}
+
+
+            {% if user.is_authenticated %}
+            <h2><a class="nav-anchor" href="{% url 'main:logout' %}">Logout</a></h2>
+            {% else %}
+            <h2 class="hi-or-login"><a class="nav-anchor" href="{% url 'main:login' %}">Login</a></h2>
+            {% endif %}
+        </div>
     </div>
+    {% if user.is_authenticated %}
     <section class="vh-100" style="background-color: #f4f5f7;">
         <div class="container py-5 h-100">
           <div class="row d-flex justify-content-center align-items-center h-100">
@@ -75,7 +87,13 @@ background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 1
                         <div class="col-6 mb-3">
                           <h6>Phone</h6>
                           <p id="randomNumber">{{ user_profile.handphone }}</p>
-                          <button id ="generateRandomNumber">Add Number</button>
+                          <form id="update-phone-form" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="user_profile_id" value="{{ user_profile.id }}">
+                            <input type="number" id="new-phone-number" name="new_phone_number" placeholder="New Phone Number">
+                            <button id="update-phone-button" type="button">Update Phone Number</button>
+                        </form>
+                          
                         </div>
                       </div>
                       <h6>Projects</h6>
@@ -84,12 +102,9 @@ background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 1
                         <div class="col-6 mb-3">
                           <h6>Recent</h6>
                           <p id="addedText">lol</p>
-                          <form id="update-phone-form" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="user_profile_id" value="{{ user_profile.id }}">
-                            <input type="number" id="new-phone-number" name="new_phone_number" placeholder="New Phone Number">
-                            <button id="update-phone-button" type="button">Update Phone Number</button>
-                        </form>
+                          <a href="{% url 'rprofile:filter_books' %}">Filter Books</a>
+
+                          
                         </div>
                         <div class="col-6 mb-3">
                           <h6>Most Viewed</h6>
@@ -109,6 +124,14 @@ background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 1
           </div>
         </div>
       </section>
+      {% else %}
+
+     
+
+      {% endif %}
+      
+
+
 
    
 
