@@ -4,6 +4,7 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, HttpRe
 from django.urls import reverse
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import User
 
 # Create your views here.
 def add_buku(request):
@@ -72,8 +73,19 @@ def approve_book(request, id):
         description = new_book.description
         genre = new_book.genre
         image_link = new_book.image_link
+        default_user = User.objects.get(username="bwahaj")
         
-        book = Book(index_key=last_book.index_key+1, title=title, author=author, description=description, genre=genre, image_link=image_link)
+        book = Book(
+            index_key=last_book.index_key+1, 
+            title=title, 
+            author=author, 
+            description=description, 
+            genre=genre, 
+            rating=0, 
+            image_link=image_link,
+            count_read = 0,
+            user = default_user,
+            )
         book.save()
 
         new_book.delete()
