@@ -12,22 +12,31 @@
             <a class="nav-anchor" href="{% url 'main:show-main' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2></a>
 
         {% else %}
-            <a class="nav-anchor" href="{% url 'main:show-main' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2></a>        {% endif %}
+            <a class="nav-anchor" href="{% url 'main:show-main' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2></a>
+            {% comment %} <a class="nav-anchor" href="{% url 'rprofile:not_login' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Profile</h2></a>       {% endcomment %}
+        {% endif %}
 
         <div id="nav-options">
-          <h2><a href="" class="nav-anchor">Reviews</a></h2>
-        {% if user.is_authenticated %}
-            <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'bom:show_user_books' username=user.username %}" class="nav-anchor">Book of the Month</a></h2>
-        {% else %}
-            <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'bom:show_top_books' %}" class="nav-anchor">Book of the Month</a></h2>
-        {% endif %}
-          {% comment %} <h2><a href="{% url 'bom:show_top_books' %}" class="nav-anchor">Book of the Month</a></h2> {% endcomment %}
-          <h2><a href="" class="nav-anchor">Books</a></h2>
-          {% if user.is_authenticated %}
+            <h2><a href="{% url 'review:reviews' %}" class="nav-anchor">Reviews</a></h2>
+
+            {% if user.is_authenticated %}
+                <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'bom:show_user_books' username=user.username %}" class="nav-anchor">Book of the Month</a></h2>
+            {% else %}
+                <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'bom:show_top_books' %}" class="nav-anchor">Book of the Month</a></h2>
+            {% endif %}
+
+            {% if user.is_authenticated %}
+                <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'readlist:book_list' username=user.username%}" class="nav-anchor">Books</a></h2>
+            {% else %}
+                <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'readlist:book_kosong' %}" class="nav-anchor">Books</a></h2>
+            {% endif %}
+
+
+            {% if user.is_authenticated %}
             <h2><a class="nav-anchor" href="{% url 'main:logout' %}">Logout</a></h2>
-          {% else %}
+            {% else %}
             <h2 class="hi-or-login"><a class="nav-anchor" href="{% url 'main:login' %}">Login</a></h2>
-          {% endif %}
+            {% endif %}
         </div>
 
     </div>
@@ -63,7 +72,7 @@
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h5 class="card-title" style="font-size: 16px;">{{ book.title }}</h5>
+                                <h5 class="card-title" style="font-size: 16px;"><a href="{% url 'main:book_detail' book_id=book.index_key %}" style="color: inherit; text-decoration: none;"> {{ book.title }}</a></h5>
                                 <p class="card-text" style="font-size: 12px;">Author: {{ book.author }}</p>
                                 <p class="card-text" style="font-size: 12px;">
                                 <span id="description{{ forloop.counter }}" data-description="{{ book.Description}}">{{ book.description|slice:":100" }}</span>

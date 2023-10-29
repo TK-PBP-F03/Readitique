@@ -146,3 +146,29 @@
 .card-trend-image-bom:hover {
   transform: scale(0.98);
 }
+.quotes-container {
+  padding: 10px auto;
+  border-radius: 5px;
+  min-height: 200px;
+  background-color: #f9f9f9;
+  font-size: 20px;
+  font-family: fantasy;
+  margin: 10px auto;
+  width: 60%;
+
+}
+.quote-item {
+    margin: 1rem auto;
+    padding: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    justify-content: center;
+    text-align: center; /* Memulai teks di tengah horizontal */
+}
+textarea {
+    text-align: center; /* Mengatur teks agar terletak di tengah secara horizontal */
+    margin: 0 auto; /* Mengatur margin horizontal untuk memposisikan textarea di tengah */
+    display: block; /* Memastikan textarea ditampilkan sebagai blok (vertical centered) */
+    height: 200px; /* Sesuaikan dengan tinggi textarea yang Anda inginkan */
+    width: 100%;
+}

@@ -9,24 +9,39 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <div id="nav-bar-raw">
-  {% if user.is_authenticated %}
-      <h2 class="hi-or-login">Hello, <a class="nav-anchor" href="{% url 'rprofile:profile' %}">{{ user.username }}</a>!</h2>
-  {% else %}
-      <h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2>
-  {% endif %}
+        {% if user.is_authenticated %}
+            <h2 class="hi-or-login">Hello, <a class="nav-anchor" href="{% url 'rprofile:profile' %}">{{ user.username }}</a>!</h2>
+            <a class="nav-anchor" href="{% url 'main:show-main' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2></a>
 
-  <div id="nav-options">
-    <h2><a href="{% url 'review:reviews' %}" class="nav-anchor">Reviews</a></h2>
-    <h2><a href="" class="nav-anchor">Book of the Month</a></h2>
-    <h2><a href="" class="nav-anchor">Books</a></h2>
-    {% if user.is_authenticated %}
-      <h2><a class="nav-anchor" href="{% url 'main:logout' %}">Logout</a></h2>
-    {% else %}
-      <h2 class="hi-or-login"><a class="nav-anchor" href="{% url 'main:login' %}">Login</a></h2>
-    {% endif %}
-  </div>
+        {% else %}
+            <a class="nav-anchor" href="{% url 'main:show-main' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2></a>
+            {% comment %} <a class="nav-anchor" href="{% url 'rprofile:not_login' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Profile</h2></a>       {% endcomment %}
+        {% endif %}
 
-</div>
+        <div id="nav-options">
+            <h2><a href="{% url 'review:reviews' %}" class="nav-anchor">Reviews</a></h2>
+
+            {% if user.is_authenticated %}
+                <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'bom:show_user_books' username=user.username %}" class="nav-anchor">Book of the Month</a></h2>
+            {% else %}
+                <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'bom:show_top_books' %}" class="nav-anchor">Book of the Month</a></h2>
+            {% endif %}
+
+            {% if user.is_authenticated %}
+                <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'readlist:book_list' username=user.username %}" class="nav-anchor">Books</a></h2>
+            {% else %}
+                <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'readlist:book_kosong' %}" class="nav-anchor">Books</a></h2>
+            {% endif %}
+
+
+            {% if user.is_authenticated %}
+            <h2><a class="nav-anchor" href="{% url 'main:logout' %}">Logout</a></h2>
+            {% else %}
+            <h2 class="hi-or-login"><a class="nav-anchor" href="{% url 'main:login' %}">Login</a></h2>
+            {% endif %}
+        </div>
+
+    </div>
 
 <section id="review-section">
   <div id="book-desc">

@@ -11,27 +11,78 @@
             <a class="nav-anchor" href="{% url 'main:show-main' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2></a>
 
         {% else %}
-            <a class="nav-anchor" href="{% url 'main:show-main' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2></a>        {% endif %}
+            <a class="nav-anchor" href="{% url 'main:show-main' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Readitique</h2></a>
+            {% comment %} <a class="nav-anchor" href="{% url 'rprofile:not_login' %}"><h2 class="hi-or-login" style="color: #e5f2c9">Profile</h2></a>       {% endcomment %}
+        {% endif %}
 
         <div id="nav-options">
-          <h2><a href="" class="nav-anchor">Reviews</a></h2>
-        {% if user.is_authenticated %}
-            <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'bom:show_user_books' username=user.username %}" class="nav-anchor">Book of the Month</a></h2>
-        {% else %}
-            <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'bom:show_top_books' %}" class="nav-anchor">Book of the Month</a></h2>
-        {% endif %}
-          <h2><a href="" class="nav-anchor">Books</a></h2>
-          {% if user.is_authenticated %}
+            <h2><a href="{% url 'review:reviews' %}" class="nav-anchor">Reviews</a></h2>
+
+            {% if user.is_authenticated %}
+                <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'bom:show_user_books' username=user.username %}" class="nav-anchor">Book of the Month</a></h2>
+            {% else %}
+                <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'bom:show_top_books' %}" class="nav-anchor">Book of the Month</a></h2>
+            {% endif %}
+
+            {% if user.is_authenticated %}
+                <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'readlist:book_list' username=user.username %}" class="nav-anchor">Books</a></h2>
+            {% else %}
+                <h2 class="hi-or-login" style="color: #e5f2c9"><a href="{% url 'readlist:book_kosong' %}" class="nav-anchor">Books</a></h2>
+            {% endif %}
+
+
+            {% if user.is_authenticated %}
             <h2><a class="nav-anchor" href="{% url 'main:logout' %}">Logout</a></h2>
-          {% else %}
+            {% else %}
             <h2 class="hi-or-login"><a class="nav-anchor" href="{% url 'main:login' %}">Login</a></h2>
-          {% endif %}
+            {% endif %}
         </div>
 
     </div>
+
     </br>
-</br>
-</br>
+    </br>
+    </br>
+    <div class= "container-quotes">
+        <div class="quotes-container" id="quotes-container">
+                <!-- Ini adalah tempat untuk menampilkan quotes teratas. Isi akan diperbarui dengan AJAX. -->
+
+        </div>
+        {% if user.is_authenticated %}
+    
+            <div class="d-flex justify-content-center align-items-center">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Quotes</button>
+            </div>
+    
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Quotes</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="form" onsubmit="return false;">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="name" class="col-form-label">{{user.username}}</label>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="text" class="col-form-label">Text:</label>
+                                    <textarea class="form-control" id="text" name="quotes"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="button_add" data-bs-dismiss="modal">Add Quotes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        {% endif %}
+    </div>
     {% comment %} <div class="row mb-3">
         <div class="col-md-12 text-center">
             <a href="{% url 'bom:reset_counts' %}" class="btn btn-danger">Reset Jumlah Pembaca</a>
@@ -40,14 +91,14 @@
 
     <div class="container-bom">
         <div class="header-bom">
-            <h1 class="text-center" style="font-family: fantasy;">Book of the Month</h1> 
+            <h2 class="text-center" style="font-family: fantasy;">Book of the Month</h2> 
             <div class="body-bom" style="display:flex;">
                 
                 <div class="column-bom">
                     <div class="card-mid-bom" style="background-image: url('{{top_books.0.image_link}}')"></div>
                     <div class="card-mid-footer-bom">
                         <div class="author-bom" >{{top_books.0.author}}</div>
-                        <div class="title-bom" ><a href="{% url 'main:book_detail' book_id=top_books.0.index_key %}">{{top_books.0.title}}</a></div>
+                        <div class="title-bom" ><a href="{% url 'main:book_detail' book_id=top_books.0.index_key %}" style="color: inherit; text-decoration: none;">{{top_books.0.title}}</a></div>
                     </div>
                 </div>
                 
@@ -56,7 +107,7 @@
                         <div class="card-image-bom" style="background-image: url('{{top_books.1.image_link}}')"></div>
                         <div class="card-content-bom">
                             <div class="author-bom"> {{top_books.1.author}}</div>
-                            <div class="title-bom"><a href="{% url 'main:book_detail' book_id=top_books.1.index_key %}">{{top_books.1.title}}</a></div>
+                            <div class="title-bom"><a href="{% url 'main:book_detail' book_id=top_books.1.index_key %}" style="color: inherit; text-decoration: none;">{{top_books.1.title}}</a></div>
 
                         </div>
                     </div>
@@ -64,7 +115,7 @@
                         <div class="card-image-bom" style="background-image: url('{{top_books.2.image_link}}')"></div>
                         <div class="card-content-bom">
                             <div class="author-bom"> {{top_books.2.author}}</div>
-                            <div class="title-bom"> <a href="{% url 'main:book_detail' book_id=top_books.2.index_key %}">{{top_books.2.title}}</a></div>
+                            <div class="title-bom"> <a href="{% url 'main:book_detail' book_id=top_books.2.index_key %}" style="color: inherit; text-decoration: none;">{{top_books.2.title}}</a></div>
                         </div>
                     </div>         
                     
@@ -72,7 +123,7 @@
                         <div class="card-image-bom" style="background-image: url('{{top_books.3.image_link}}')"></div>
                         <div class="card-content-bom">
                             <div class="author-bom"> {{top_books.3.author}}</div>
-                            <div class="title-bom"> <a href="{% url 'main:book_detail' book_id=top_books.3.index_key %}">{{top_books.3.title}}</a></div>
+                            <div class="title-bom"> <a href="{% url 'main:book_detail' book_id=top_books.3.index_key %}" style="color: inherit; text-decoration: none;">{{top_books.3.title}}</a></div>
                         </div>
                     </div>
                 </div>
@@ -81,14 +132,14 @@
                         <div class="card-image-bom" style="background-image: url('{{top_books.4.image_link}}')"></div>
                         <div class="card-content-bom">
                             <div class="author-bom"> {{top_books.4.author}}</div>
-                            <div class="title-bom">  <a href="{% url 'main:book_detail' book_id=top_books.4.index_key %}">{{top_books.4.title}}</a></div>
+                            <div class="title-bom">  <a href="{% url 'main:book_detail' book_id=top_books.4.index_key %}" style="color: inherit; text-decoration: none;">{{top_books.4.title}}</a></div>
                         </div>
                     </div>
                     <div class="card-bom">
                         <div class="card-image-bom" style="background-image: url('{{top_books.5.image_link}}')"></div>
                         <div class="card-content-bom">
                             <div class="author-bom"> {{top_books.5.author}}</div>
-                            <div class="title-bom">  <a href="{% url 'main:book_detail' book_id=top_books.5.index_key %}">{{top_books.5.title}}</a></div>
+                            <div class="title-bom">  <a href="{% url 'main:book_detail' book_id=top_books.5.index_key %}" style="color: inherit; text-decoration: none;">{{top_books.5.title}}</a></div>
                         </div>
                     </div>         
                     
@@ -96,7 +147,7 @@
                         <div class="card-image-bom" style="background-image: url('{{top_books.6.image_link}}')"></div>
                         <div class="card-content-bom">
                             <div class="author-bom"> {{top_books.6.author}}</div>
-                            <div class="title-bom">  <a href="{% url 'main:book_detail' book_id=top_books.6.index_key %}">{{top_books.6.title}}</a></div>
+                            <div class="title-bom">  <a href="{% url 'main:book_detail' book_id=top_books.6.index_key %}" style="color: inherit; text-decoration: none;">{{top_books.6.title}}</a></div>
                         </div>
                     </div>
                 </div> 
@@ -150,139 +201,38 @@
             
         </div>
     {% endif %}
-
-
-    {% comment %} <div class="shadow-sm p-4 mb-4 bg-white">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3 mx-auto" >
-                    <!-- Isi kolom pertama -->
-                    {% for i in top_books|slice:"1:4" %}
-                    <div class="card mb-2" ><!-- Mengatur lebar maksimal ke 100% -->
-                        <div class="row g-0">
-                            <div class="col-md-2 mx-auto" style="width: 100px; height: 150px; overflow: hidden;"><!-- Memperbaiki width dan height -->
-                                <img src="{{i.image_link}}" class="img-fluid rounded-start" alt="Gambar" >
-                            </div>
-                            <div class="col-md-8" >
-                                <div class="card-body" style="height: 150px; overflow: hidden;">
-                                    <h5 class="card-title" style="font-size: 14px;">{{i.title}}</h5>
-                                    <p class="card-text" style="font-size: 10px;">{{i.author}}</p>
-                                    <button class="btn btn-primary" onclick="incrementCount({{ i.index_key }})">Tambah Pembaca</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-
-
-                <div class="col-md-3 mx-auto">
-                    <!-- Isi kolom tengah (kolom 1) -->
-                    <div class="card mb-3">
-                        <div class="row g-0" >
-                            <div class="card text-bg-dark">
-                                <img src="{{top_books.0.image_link}}" class="card-img" alt="Gambar" >
-                                <div class="card-img-overlay">
-                                    <p class="card-text"><small>1</small></p>
-                                    <h5 class="card-title">{{top_books.0.title}}</h5>
-                                    <p class="card-text">{{top_books.0.author}}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-3 mx-auto">
-                    <!-- Isi kolom terakhir -->
-                    {% for i in top_books|slice:"4:" %}
-                    <div class="card mb-2" ><!-- Mengatur lebar maksimal ke 100% -->
-                        <div class="row g-0">
-                            <div class="col-md-4 mx-auto" style="width: 100px; height: 150px; overflow: hidden;"><!-- Memperbaiki width dan height -->
-                                <img src="{{i.image_link}}" class="img-fluid rounded-start" alt="Gambar">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body" style="height: 150px; overflow: hidden;">
-                                    <h5 class="card-title" style="font-size: 14px;">{{i.title}}</h5>
-                                    <p class="card-text" style="font-size: 10px;">{{i.author}}</p>
-                                    <button class="btn btn-primary" onclick="incrementCount({{ i.index_key }})">Tambah Pembaca</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div> {% endcomment %}
-
-    {% comment %} Card pertama untuk urutan jumlah pembaca terbanyak {% endcomment %}
-    {% comment %} <div class="container mt-5">
-        <div id="myCarousel" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="row border-primary">
-                        <div class="col-md-3">
-                            <div class="card">
-                                <img class="card-img-top" src="{{top_books.0.image_link}}" alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card 1</h5>
-                                    <p class="card-text">Some example text for Card 1.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card">
-                                <img class="card-img-top" src="{{top_books.1.image_link}}" alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card 2</h5>
-                                    <p class="card-text">Some example text for Card 2.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card">
-                                <img class="card-img-top" src="{{top_books.2.image_link}}" alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card 3</h5>
-                                    <p class="card-text">Some example text for Card 3.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card">
-                                <img class="card-img-top" src="{{top_books.3.image_link}}" alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card 4</h5>
-                                    <p class="card-text">Some example text for Card 4.</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
-            <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-        </div>
-    </div> {% endcomment %}
-
+    
     <script>
-        function incrementCount(bookId) {
-            // Kirim permintaan AJAX ke server untuk menambah jumlah pembaca
-            fetch(`/bom/increment_count/${bookId}/`)
-                .then(response => response.json())
-                .then(data => {
-                    // Perbarui tampilan jumlah pembaca
-                    document.getElementById(`count-read-${bookId}`).innerText = data.count_read;
-                })
-                .catch(error => console.error(error));
+        function updateTopQuotes() {
+        // Kirim permintaan AJAX ke server untuk mendapatkan quotes teratas
+        fetch("{% url 'bom:get_top_quotes' %}")
+            .then(response => response.json())
+            .then(data => {
+                // Perbarui elemen quotes-container dengan quotes teratas yang diterima dari server
+                const quotesContainer = document.getElementById("quotes-container");
+                quotesContainer.innerHTML = ""; // Kosongkan isi sebelum memperbarui
+                const quoteElement = document.createElement("textarea");
+                quoteElement.innerText = data.quotes;
+                quoteElement.classList.add("quote-item");
+                quoteElement.setAttribute("readonly", "true");
+                quotesContainer.appendChild(quoteElement);
+            })
+            .catch(error => console.error(error));
+    }
+
+    // Panggil fungsi untuk memuat quotes teratas saat halaman dimuat
+    updateTopQuotes();
+
+        function addQuotes() {
+            fetch("{% url 'bom:add_quotes_ajax' %}", {
+                method: "POST",
+                body: new FormData(document.querySelector('#form'))
+            }).then(updateTopQuotes)
+            
+            document.getElementById("form").reset()
+            return false
         }
+        document.getElementById("button_add").onclick = addQuotes
     </script>
 
 

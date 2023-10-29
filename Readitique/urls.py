@@ -22,4 +22,5 @@ urlpatterns = [
     path('profile/',include('rprofile.urls')),
     path('reviews/', include('review.urls')),
     path('bom/', include('bom.urls')),
+    path('readlist/', include('readlist.urls')),
 ]
