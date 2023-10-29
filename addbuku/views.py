@@ -20,6 +20,25 @@ def add_buku(request):
 
     return render(request,'addbuku.html', context)
 
+def get_filtered(request):
+    user = request.user
+    search_key = request.GET.get('search_text', '')
+    
+    if user.is_authenticated:
+        if (search_key == ''):
+            data = NewBook.objects.order_by("-votes")
+        else:
+            data = NewBook.objects.filter(title__icontains=search_key).order_by("-votes")
+    else:
+        if (search_key == ''):
+            data = NewBook.objects.order_by("-pk")[:6]
+        else:
+            data = NewBook.objects.filter(title__icontains=search_key).order_by("-pk")[:6]
+
+    data_json = serializers.serialize("json", data)
+
+    return HttpResponse(data_json)
+
 def get_newbook_json(request):
     user = request.user
     if user.is_authenticated:
