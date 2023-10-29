@@ -1,0 +1,5 @@
+<form method="post" action="{% url 'rprofile:filter_books' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Filter Books</button>
+</form>

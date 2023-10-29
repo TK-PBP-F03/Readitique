@@ -14,6 +14,7 @@ urlpatterns = [
   path('json/<int:id>/', views.show_json_by_id, name='show_json_by_id'),
   path('rprofile/update_phone_number/', views.update_phone_number, name='update_phone_number'),
   path('rprofile/not_login/', views.not_login, name='not_login'),
+  path('rprofile/filter-books/', views.filter_books, name='filter_books'),
  
   
 

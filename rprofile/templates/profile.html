@@ -76,7 +76,13 @@ background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 1
                         <div class="col-6 mb-3">
                           <h6>Phone</h6>
                           <p id="randomNumber">{{ user_profile.handphone }}</p>
-                          <button id ="generateRandomNumber">Add Number</button>
+                          <form id="update-phone-form" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="user_profile_id" value="{{ user_profile.id }}">
+                            <input type="number" id="new-phone-number" name="new_phone_number" placeholder="New Phone Number">
+                            <button id="update-phone-button" type="button">Update Phone Number</button>
+                        </form>
+                          
                         </div>
                       </div>
                       <h6>Projects</h6>
@@ -85,12 +91,9 @@ background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 1
                         <div class="col-6 mb-3">
                           <h6>Recent</h6>
                           <p id="addedText">lol</p>
-                          <form id="update-phone-form" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="user_profile_id" value="{{ user_profile.id }}">
-                            <input type="number" id="new-phone-number" name="new_phone_number" placeholder="New Phone Number">
-                            <button id="update-phone-button" type="button">Update Phone Number</button>
-                        </form>
+                          <a href="{% url 'rprofile:filter_books' %}">Filter Books</a>
+
+                          
                         </div>
                         <div class="col-6 mb-3">
                           <h6>Most Viewed</h6>
