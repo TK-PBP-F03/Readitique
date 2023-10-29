@@ -24,10 +24,16 @@ def get_filtered(request):
     user = request.user
     search_key = request.GET.get('search_text', '')
     
-    if (search_key == ''):
-        data = NewBook.objects.order_by("-votes")
+    if user.is_authenticated:
+        if (search_key == ''):
+            data = NewBook.objects.order_by("-votes")
+        else:
+            data = NewBook.objects.filter(title__icontains=search_key).order_by("-votes")
     else:
-        data = NewBook.objects.filter(title__icontains=search_key).order_by("-votes")
+        if (search_key == ''):
+            data = NewBook.objects.order_by("-pk")[:6]
+        else:
+            data = NewBook.objects.filter(title__icontains=search_key).order_by("-pk")[:6]
 
     data_json = serializers.serialize("json", data)
 

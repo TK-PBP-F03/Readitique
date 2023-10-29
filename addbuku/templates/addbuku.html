@@ -48,14 +48,13 @@
     </div>
     </div>
       
-
     <div id="search-input">
-        <h1>Book Suggestions:</h1>
-        {%if user.is_authenticated is True%}
+        <h1>Book Recomendations:</h1>
         <div>
             <label for="search-book">Search by title:</label>
             <input id="booksearch" type="text" name="search-book" style="margin-left: 8px"/>
         </div>
+        {%if user.is_authenticated is True%}
         <h4>Suggest a book <a data-bs-toggle="modal" data-bs-target="#bookModal" href="">here</a>!</h4>
         {% endif %}
     </div>
