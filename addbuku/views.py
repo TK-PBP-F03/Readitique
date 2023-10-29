@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def add_buku(request):
@@ -47,6 +48,7 @@ def get_newbook_json(request):
         new_book_item = NewBook.objects.all().order_by('-pk')[:6]
     return HttpResponse(serializers.serialize('json', new_book_item))
 
+@login_required
 @csrf_exempt
 def add_newbook_ajax(request):
     if request.method == 'POST':
@@ -65,6 +67,7 @@ def add_newbook_ajax(request):
 
     return HttpResponseNotFound()
 
+@login_required
 @csrf_exempt
 def increment_votes(request, id):
     if request.method == 'POST':
@@ -82,6 +85,7 @@ def increment_votes(request, id):
 
     return HttpResponseNotFound()
 
+@login_required
 @csrf_exempt
 def approve_book(request, id):
     if request.method == 'GET':
