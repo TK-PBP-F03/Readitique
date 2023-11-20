@@ -26,10 +26,10 @@ env = environ.Env() # Tambahkan kode berikut
 SECRET_KEY = 'django-insecure-21e6inesy2(*qbsec7l5g%&-xaovf*3-2zk((xn87nzk(8!i^a'
 # Automatically determine environment by detecting if DATABASE_URL variable.
 # DATABASE_URL is provided by Heroku if a database add-on is added (e.g. Heroku Postgres).
-PRODUCTION = env.bool('PRODUCTION', False)
+PRODUCTION = env.bool('PRODUCTION', False) # type: ignore
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -43,12 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main',
-    'bom',
-    'addbuku',
-    'readlist',
-    'rprofile',
-    'review',
+    'main.apps.MainConfig',
+    'bom.apps.BomConfig',
+    'addbuku.apps.AddbukuConfig',
+    'readlist.apps.ReadlistConfig',
+    'rprofile.apps.RprofileConfig',
+    'review.apps.ReviewConfig',
 ]
 
 MIDDLEWARE = [
@@ -133,7 +133,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'staticfiles')]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
