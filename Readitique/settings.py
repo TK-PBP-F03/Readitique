@@ -43,12 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main.apps.MainConfig',
-    'bom.apps.BomConfig',
-    'addbuku.apps.AddbukuConfig',
-    'readlist.apps.ReadlistConfig',
-    'rprofile.apps.RprofileConfig',
-    'review.apps.ReviewConfig',
+    'main',
+    'bom',
+    'addbuku',
+    'readlist',
+    'rprofile',
+    'review',
 ]
 
 MIDDLEWARE = [
