@@ -24,4 +24,6 @@ urlpatterns = [
     path('bom/', include('bom.urls')),
     path('readlist/', include('readlist.urls')),
     path('add-buku/', include('addbuku.urls')),
+    path('auth/', include('authentication.urls')),
+    path('api/', include('api.urls')),
 ]
