@@ -165,3 +165,25 @@ def filter_books(request):
         form = BookSearchForm()
 
     return render(request, 'filter_books.html', {'form': form})
+@csrf_exempt
+def create_flutter(request, username):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+
+            user_profile = UserProfile.objects.get(user__username=username)
+
+            # Update the username
+            user_profile.user.username = data["username"]
+            user_profile.user.save()
+
+            return JsonResponse({"status": "success"}, status=200)
+
+        except UserProfile.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "UserProfile not found"}, status=404)
+
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=500)
+
+    else:
+        return JsonResponse({"status": "error"}, status=401)
