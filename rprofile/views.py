@@ -110,7 +110,7 @@ def edit_book(request, id):
 
 
 def show_json(request):
-    data = Book.objects.all()
+    data = UserProfile.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 def show_json_by_id(request, id):
     data = Book.objects.filter(pk=id)
