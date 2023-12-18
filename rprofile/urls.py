@@ -2,6 +2,8 @@ from django.urls import path
 
 from rprofile import views
 
+
+
 app_name = 'rprofile'
 
 urlpatterns = [
@@ -11,11 +13,12 @@ urlpatterns = [
   path('update_phone/', views.update_phone, name='update_phone'),
   path('profile/edit_book/<int:id>/', views.edit_book, name='edit_book'),
   path('json/', views.show_json, name='show_json'), 
-  path('json/<int:id>/', views.show_json_by_id, name='show_json_by_id'),
+ # path('json/<int:id>/', views.show_json_by_id, name='show_json_by_id'),
   path('rprofile/update_phone_number/', views.update_phone_number, name='update_phone_number'),
   path('rprofile/not_login/', views.not_login, name='not_login'),
   path('rprofile/filter-books/', views.filter_books, name='filter_books'),
   path('create-flutter/<str:username>/', views.create_flutter, name='create-flutter'),
+  path('json/<int:pk>/', views.UserProfileAPIView.as_view(), name='user-profile-json'),
  
   
 

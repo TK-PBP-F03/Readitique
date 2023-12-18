@@ -17,6 +17,12 @@ from rprofile.forms import BookForm
 from rprofile.models import UserProfile
 from .forms import UpdatePhoneNumberForm
 from .forms import BookSearchForm
+from django.shortcuts import get_object_or_404
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .models import UserProfile
+from api.serializers import UserProfileSerializer
 
 
 
@@ -113,7 +119,7 @@ def show_json(request):
     data = UserProfile.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 def show_json_by_id(request, id):
-    data = Book.objects.filter(pk=id)
+    data = UserProfile.objects.filter(pk=id)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 
@@ -187,3 +193,10 @@ def create_flutter(request, username):
 
     else:
         return JsonResponse({"status": "error"}, status=401)
+    
+class UserProfileAPIView(APIView):
+    def get(self, request, pk):
+        user_profile = get_object_or_404(UserProfile, pk=pk)
+        serializer = UserProfileSerializer(user_profile)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
