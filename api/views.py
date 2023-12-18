@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from rest_framework import generics
 from .models import Book
 from .serializers import BookSerializer
@@ -21,3 +22,8 @@ class UserProfileListCreateView(generics.ListCreateAPIView):
     def get_queryset(self):
         # Filter the queryset to retrieve the user profile of the authenticated user
         return UserProfile.objects.filter(user=self.request.user)
+    
+def user_profiles(request):
+    profiles = UserProfile.objects.all()
+    serializer = UserProfileSerializer(profiles, many=True)
+    return JsonResponse(serializer.data, safe=False)
