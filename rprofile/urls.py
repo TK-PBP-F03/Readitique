@@ -17,9 +17,10 @@ urlpatterns = [
   path('rprofile/update_phone_number/', views.update_phone_number, name='update_phone_number'),
   path('rprofile/not_login/', views.not_login, name='not_login'),
   path('rprofile/filter-books/', views.filter_books, name='filter_books'),
-  path('create-flutter/<str:user>/', views.create_flutter, name='create-flutter'),
+  path('create-flutter/<str:username>/', views.create_flutter, name='create-flutter'),
   path('json/<int:pk>/', views.UserProfileAPIView.as_view(), name='user-profile-json'),
- 
+ # path('json/<str:username>/', views.show_json_by_username, name='user-profile-json-by-username'),
+  path('json/<str:username>/', views.UserProfileAPIViewM.as_view(), name='user-profile-json-by-username'),
   
 
 ]

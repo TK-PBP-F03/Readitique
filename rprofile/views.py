@@ -23,7 +23,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import UserProfile
 from api.serializers import UserProfileSerializer
-
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 
 @login_required
@@ -115,14 +116,27 @@ def edit_book(request, id):
     return render(request, "edit_book.html", context)
 
 
+@api_view(['GET'])
 def show_json(request):
     data = UserProfile.objects.all()
-    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+    serializer = UserProfileSerializer(data, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
 def show_json_by_id(request, id):
     data = UserProfile.objects.filter(pk=id)
-    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+    serializer = UserProfileSerializer(data, many=True)
+    return Response(serializer.data)
 
+@api_view(['GET'])
+def show_json_by_username(request, username):
+    try:
+        user_profile = UserProfile.objects.get(user__username=username)
+    except UserProfile.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
+    serializer = UserProfileSerializer(user_profile)
+    return Response(serializer.data)
 
 def update_phone_number(request):
     if request.method == 'POST':
@@ -172,16 +186,20 @@ def filter_books(request):
 
     return render(request, 'filter_books.html', {'form': form})
 
+    
 @csrf_exempt
-def create_flutter(request, user):
+def create_flutter(request, username):  # Change 'user' to 'username' in the method signature
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
 
-            # Retrieve the user profile
-            user_profile = UserProfile.objects.get(user_id=user)
+            # Retrieve the user
+            user = get_object_or_404(User, username=username)
 
-            # Update the user
+            # Retrieve or create the user profile
+            user_profile, created = UserProfile.objects.get_or_create(user=user)
+
+            # Update the user profile
             user_profile.email = data["email"]
             
             # Save the changes
@@ -203,4 +221,10 @@ class UserProfileAPIView(APIView):
         user_profile = get_object_or_404(UserProfile, pk=pk)
         serializer = UserProfileSerializer(user_profile)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
 
+class UserProfileAPIViewM(APIView):
+    def get(self, request, username):  # Change 'pk' to 'username' in the method signature
+        user_profile = get_object_or_404(UserProfile, user__username=username)  # Change 'pk' to 'user__username'
+        serializer = UserProfileSerializer(user_profile)
+        return Response(serializer.data, status=status.HTTP_200_OK)
