@@ -171,17 +171,21 @@ def filter_books(request):
         form = BookSearchForm()
 
     return render(request, 'filter_books.html', {'form': form})
+
 @csrf_exempt
-def create_flutter(request, username):
+def create_flutter(request, user):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
 
-            user_profile = UserProfile.objects.get(user__username=username)
+            # Retrieve the user profile
+            user_profile = UserProfile.objects.get(user_id=user)
 
-            # Update the username
-            user_profile.user.username = data["username"]
-            user_profile.user.save()
+            # Update the user
+            user_profile.email = data["email"]
+            
+            # Save the changes
+            user_profile.save()
 
             return JsonResponse({"status": "success"}, status=200)
 
