@@ -9,7 +9,9 @@ class BookSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    username = serializers.ReadOnlyField(source='user.username')
+
     class Meta:
         model = UserProfile
-        fields = '__all__'
+        fields = ['id', 'handphone', 'email', 'username', 'favorite_books']
 
