@@ -134,16 +134,36 @@ def create_newbook_flutter(request):
         data = json.loads(request.body)
 
         new_book = NewBook.objects.create(
-            user = request.user,
-            name = data["name"],
+            title = data["title"],
             author= data["author"],
             genre = data["genre"],
-            description = data["description"]
+            description = data["description"],
+            image_link = data["image_link"]
         )
 
         new_book.save()
-        UserVote.objects.create(user=user, book=new_book)
+        UserVote.objects.create(user=request.user, book=new_book)
 
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
+
+@login_required
+@csrf_exempt
+def vote_flutter(request):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+        new_book = NewBook.objects.get(pk=data["id"])
+        user = request.user
+        print(new_book.votes)
+        if UserVote.objects.filter(user=user, book=new_book).exists():
+            return JsonResponse({'error': 'You have already voted for this book.'}, status=400)
+
+        new_book.votes += 1
+        print(new_book.votes)
+        new_book.save()
+        UserVote.objects.create(user=user, book=new_book)
         return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=401)
