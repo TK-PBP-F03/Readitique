@@ -1,10 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from addbuku.models import Book, NewBook, UserVote
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.urls import reverse
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+import json
 
 # Create your views here.
 def add_buku(request):
@@ -47,6 +49,7 @@ def get_newbook_json(request):
         new_book_item = NewBook.objects.all().order_by('-pk')[:6]
     return HttpResponse(serializers.serialize('json', new_book_item))
 
+@login_required
 @csrf_exempt
 def add_newbook_ajax(request):
     if request.method == 'POST':
@@ -65,6 +68,7 @@ def add_newbook_ajax(request):
 
     return HttpResponseNotFound()
 
+@login_required
 @csrf_exempt
 def increment_votes(request, id):
     if request.method == 'POST':
@@ -82,6 +86,7 @@ def increment_votes(request, id):
 
     return HttpResponseNotFound()
 
+@login_required
 @csrf_exempt
 def approve_book(request, id):
     if request.method == 'GET':
@@ -112,3 +117,53 @@ def approve_book(request, id):
         return HttpResponse(b"CREATED", status=201)
     
     return HttpResponseNotFound()
+
+def show_json(request):
+    data = NewBook.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+def show_json_by_id(request, id):
+    data = NewBook.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+@login_required
+@csrf_exempt
+def create_newbook_flutter(request):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+
+        new_book = NewBook.objects.create(
+            title = data["title"],
+            author= data["author"],
+            genre = data["genre"],
+            description = data["description"],
+            image_link = data["image_link"]
+        )
+
+        new_book.save()
+        UserVote.objects.create(user=request.user, book=new_book)
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
+
+@login_required
+@csrf_exempt
+def vote_flutter(request):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+        new_book = NewBook.objects.get(pk=data["id"])
+        user = request.user
+        print(new_book.votes)
+        if UserVote.objects.filter(user=user, book=new_book).exists():
+            return JsonResponse({'error': 'You have already voted for this book.'}, status=400)
+
+        new_book.votes += 1
+        print(new_book.votes)
+        new_book.save()
+        UserVote.objects.create(user=user, book=new_book)
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)

@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.models import User
+from rprofile.models import UserProfile
 
 
 @csrf_exempt
@@ -60,5 +61,7 @@ def register(request):
 
     user = User.objects.create_user(username=username, password=password)
     user.save()
+    user_profile = UserProfile(user=user)
+    user_profile.save()
 
     return JsonResponse({"username": user.username, "status": True, "message": "Register berhasil!"}, status=201)
